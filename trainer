@@ -1,0 +1,324 @@
+#!/usr/bin/env python3
+
+import random
+import sys
+import re
+
+import kociemba # https://github.com/muodov/kociemba
+
+#             |************|
+#             |*U0**U1**U2*|
+#             |************|
+#             |*U3**U4**U5*|
+#             |************|
+#             |*U6**U7**U8*|
+#             |************|
+# ************|************|************|************
+# *L0**L1**L2*|*F0**F1**F2*|*R0**R1**R2*|*B0**B1**B2*
+# ************|************|************|************
+# *L3**L4**L5*|*F3**F4**F5*|*R3**R4**R5*|*B3**B4**B5*
+# ************|************|************|************
+# *L6**L7**L8*|*F6**F7**F8*|*R6**R7**R8*|*B6**B7**B8*
+# ************|************|************|************
+#             |************|
+#             |*D0**D1**D2*|
+#             |************|
+#             |*D3**D4**D5*|
+#             |************|
+#             |*D6**D7**D8*|
+#             |************|
+
+# U0, U1, U2, U3, U4, U5, U6, U7, U8, R0, R1, R2, R3, R4, R5, R6, R7, R8, F0, F1, F2, F3, F4, F5, F6, F7, F8, D0, D1, D2, D3, D4, D5, D6, D7, D8, L0, L1, L2, L3, L4, L5, L6, L7, L8, B0, B1, B2, B3, B4, B5, B6, B7, B8.
+
+class CubeState:
+    def __init__(self):
+        self._U = ['U']*9
+        self._R = ['R']*9
+        self._F = ['F']*9
+        self._D = ['D']*9
+        self._L = ['L']*9
+        self._B = ['B']*9
+
+    def state(self):
+        return (''.join(self._U)
+                + ''.join(self._R)
+                + ''.join(self._F)
+                + ''.join(self._D)
+                + ''.join(self._L)
+                + ''.join(self._B))
+
+    @staticmethod
+    def _rotate1(x):
+        return [x[6], x[3], x[0], x[7], x[4], x[1], x[8], x[5], x[2]]
+
+    @staticmethod
+    def _rotate2(x):
+        return CubeState._rotate1(CubeState._rotate1(x))
+
+    @staticmethod
+    def _rotate3(x):
+        return CubeState._rotate1(CubeState._rotate1(CubeState._rotate1(x)))
+
+    def U(self):
+        self._U = CubeState._rotate1(self._U)
+
+        Ltemp = [self._L[0], self._L[1], self._L[2]]
+        self._L[0] = self._F[0]
+        self._L[1] = self._F[1]
+        self._L[2] = self._F[2]
+
+        self._F[0] = self._R[0]
+        self._F[1] = self._R[1]
+        self._F[2] = self._R[2]
+
+        self._R[0] = self._B[0]
+        self._R[1] = self._B[1]
+        self._R[2] = self._B[2]
+
+        self._B[0] = Ltemp[0]
+        self._B[1] = Ltemp[1]
+        self._B[2] = Ltemp[2]
+
+    def D(self):
+        self._D = CubeState._rotate1(self._D)
+
+        Ltemp = [self._L[6], self._L[7], self._L[8]]
+        self._L[6] = self._B[6]
+        self._L[7] = self._B[7]
+        self._L[8] = self._B[8]
+
+        self._B[6] = self._R[6]
+        self._B[7] = self._R[7]
+        self._B[8] = self._R[8]
+
+        self._R[6] = self._F[6]
+        self._R[7] = self._F[7]
+        self._R[8] = self._F[8]
+
+        self._F[6] = Ltemp[0]
+        self._F[7] = Ltemp[1]
+        self._F[8] = Ltemp[2]
+
+    def R(self):
+        self._R = CubeState._rotate1(self._R)
+
+        Ftemp = [self._F[2], self._F[5], self._F[8]]
+        self._F[2] = self._D[2]
+        self._F[5] = self._D[5]
+        self._F[8] = self._D[8]
+
+        self._D[2] = self._B[6]
+        self._D[5] = self._B[3]
+        self._D[8] = self._B[0]
+
+        self._B[6] = self._U[2]
+        self._B[3] = self._U[5]
+        self._B[0] = self._U[8]
+
+        self._U[2] = Ftemp[0]
+        self._U[5] = Ftemp[1]
+        self._U[8] = Ftemp[2]
+
+    def L(self):
+        self._L = CubeState._rotate1(self._L)
+
+        Ftemp = [self._F[0], self._F[3], self._F[6]]
+        self._F[0] = self._U[0]
+        self._F[3] = self._U[3]
+        self._F[6] = self._U[6]
+
+        self._U[0] = self._B[8]
+        self._U[3] = self._B[5]
+        self._U[6] = self._B[2]
+
+        self._B[8] = self._D[0]
+        self._B[5] = self._D[3]
+        self._B[2] = self._D[6]
+
+        self._D[0] = Ftemp[0]
+        self._D[3] = Ftemp[1]
+        self._D[6] = Ftemp[2]
+
+    def F(self):
+        self._F = CubeState._rotate1(self._F)
+
+        Ltemp = [self._L[2], self._L[5], self._L[8]]
+        self._L[2] = self._D[0]
+        self._L[5] = self._D[1]
+        self._L[8] = self._D[2]
+
+        self._D[0] = self._R[6]
+        self._D[1] = self._R[3]
+        self._D[2] = self._R[0]
+
+        self._R[6] = self._U[8]
+        self._R[3] = self._U[7]
+        self._R[0] = self._U[6]
+
+        self._U[8] = Ltemp[0]
+        self._U[7] = Ltemp[1]
+        self._U[6] = Ltemp[2]
+
+    def B(self):
+        self._B = CubeState._rotate1(self._B)
+
+        Ltemp = [self._L[0], self._L[3], self._L[6]]
+        self._L[0] = self._U[2]
+        self._L[3] = self._U[1]
+        self._L[6] = self._U[0]
+
+        self._U[2] = self._R[8]
+        self._U[1] = self._R[5]
+        self._U[0] = self._R[2]
+
+        self._R[8] = self._D[6]
+        self._R[5] = self._D[7]
+        self._R[2] = self._D[8]
+
+        self._D[6] = Ltemp[0]
+        self._D[7] = Ltemp[1]
+        self._D[8] = Ltemp[2]
+
+    def scramble(self, moves):
+        for m in re.split(r'[\s()\[\]]+', moves):
+            if m == 'R':
+                self.R()
+            elif m == 'R2' or m == 'R2\'':
+                self.R()
+                self.R()
+            elif m == 'R\'':
+                self.R()
+                self.R()
+                self.R()
+
+            elif m == 'L':
+                self.L()
+            elif m == 'L2' or m == 'L2\'':
+                self.L()
+                self.L()
+            elif m == 'L\'':
+                self.L()
+                self.L()
+                self.L()
+
+            elif m == 'U':
+                self.U()
+            elif m == 'U2' or m == 'U2\'':
+                self.U()
+                self.U()
+            elif m == 'U\'':
+                self.U()
+                self.U()
+                self.U()
+
+            elif m == 'D':
+                self.D()
+            elif m == 'D2' or m == 'D2\'':
+                self.D()
+                self.D()
+            elif m == 'D\'':
+                self.D()
+                self.D()
+                self.D()
+
+            elif m == 'F':
+                self.F()
+            elif m == 'F2' or m == 'F2\'':
+                self.F()
+                self.F()
+            elif m == 'F\'':
+                self.F()
+                self.F()
+                self.F()
+
+            elif m == 'B':
+                self.B()
+            elif m == 'B2' or m == 'B2\'':
+                self.B()
+                self.B()
+            elif m == 'B\'':
+                self.B()
+                self.B()
+                self.B()
+
+            elif m == '':
+                pass
+            else:
+                sys.stderr.write('unknown move %s\n' % m)
+                exit(-1)
+
+
+plls = [
+    "R' F R' B2 R F' R' B2 R2",                             # Aa
+    "(R U R' F') (R U2 R' U2') (R' F R U) (R U2' R') [U']", # Ra
+    "(R' U2 R U2) R' F (R U R' U') R' F' R2 [U']",          # Rb
+    "(R' U L' U2) (R U' R' U2 R) L [U']",                   # Ja
+    "(R U R' F') (R U R' U') R' F R2 U' R' [U']",           # Jb
+    "R2 U (R U R' U') R' U' (R' U R')",                     # Ub
+    "(R' U R' U') R' U' (R' U R U) R2'",                    # Ub
+    "(R U' R U) R U (R U' R' U') R2",                       # Ua
+    "(R U R' U) (R' U' R2 U') R' U R' U R",                 # Ua
+    "(R U R' U') (R' F R2 U') R' U' (R U R' F')",           # T
+    "(R' U' F')(R U R' U')(R' F R2 U')(R' U' R U)(R' U R)", # F
+    "F (R U' R' U') (R U R' F') (R U R' U') (R' F R F')",   # Y
+]
+
+# to get a scramble for case X:
+# get a solution for scramble: (solution for case X) (random pll)
+
+cases = [
+    {
+        'case': 'WV - 3 corners',
+        #'scramble': "U2 R' D R2 U' R' U R2 D' R2 U",
+        'solution': "L' U2 (R U R') U2 L",
+    },
+    {
+        'case': 'WV - 2 corners #1 (FR pointing front)',
+        #'scramble': "R U R U F2 L2 B2 D' B2 L2 F2 U2 R2",
+        'solution': "R U' R'",
+    },
+    {
+        'case': 'WV - 2 corners #2 (BR pointing back)',
+        #'scramble': "R U2 F2 R F2 R U2 F2 R2 F2 U' R2 U' R2 U2",
+        'solution': "[insert to Sune] (R U' R') U [R' U' R U' R' U2 R]",
+    },
+    {
+        'case': 'WV - 2 corners #3 (BL pointing back)',
+        #'scramble': "F2 D2 L2 U' L' D L F2 D R2 D B2 D' R2 F2 U2 F2",
+        'solution': "U' (R U' R' U2) (R U' R' U2) (R U R')",
+    },
+    {
+        'case': 'WV - 2 corners #4 (FR pointing right)',
+        #'scramble': "R U B2 R' D2 L U2 L U' R2 U' L2 D B2 D B2 R2",
+        'solution': "U' (R' F R U) (R U' R' F')",
+    },
+    {
+        'case': 'WV - 2 corners #5 (BR pointing right)',
+        #'scramble': "R2 U' F2 U R' U R U' B2 U' F2 U B2 U R2",
+        'solution': "R2 D R' U' R D' R2'",
+    },
+    {
+        'case': 'WV - 2 corners #6 (BL pointing left)',
+        #'scramble': "L F2 L2 B2 L' D2 R' U' L2 F2 B2 U B2 D' F2 U2",
+        'solution': "(R U R' U') (R U' R') ",
+    },
+]
+
+enabled_cases = [cases[0], cases[1], cases[4]]
+
+while True:
+    # to get a scramble for case X:
+    # get a solution for scramble: (solution for case X) (random pll)
+
+    idx = random.randrange(len(enabled_cases))
+    case = enabled_cases[idx]
+    s = CubeState()
+    pll = plls[random.randrange(len(plls))]
+    s.scramble(case['solution'] + ' ' + pll)
+    scramble = kociemba.solve(s.state())
+    print('\nscramble: %s' % scramble)
+    print('? ', end='')
+    sys.stdout.flush()
+    action = sys.stdin.readline()
+    print('case was %s' % case)
+    print('pll was %s' % pll)
