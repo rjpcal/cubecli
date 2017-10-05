@@ -269,42 +269,35 @@ plls = [
 cases = [
     {
         'case': 'WV - 3 corners',
-        #'scramble': "U2 R' D R2 U' R' U R2 D' R2 U",
         'solution': "L' U2 (R U R') U2 L",
     },
     {
         'case': 'WV - 2 corners #1 (FR pointing front)',
-        #'scramble': "R U R U F2 L2 B2 D' B2 L2 F2 U2 R2",
         'solution': "R U' R'",
     },
     {
         'case': 'WV - 2 corners #2 (BR pointing back)',
-        #'scramble': "R U2 F2 R F2 R U2 F2 R2 F2 U' R2 U' R2 U2",
         'solution': "[insert to Sune] (R U' R') U [R' U' R U' R' U2 R]",
     },
     {
         'case': 'WV - 2 corners #3 (BL pointing back)',
-        #'scramble': "F2 D2 L2 U' L' D L F2 D R2 D B2 D' R2 F2 U2 F2",
         'solution': "U' (R U' R' U2) (R U' R' U2) (R U R')",
     },
     {
         'case': 'WV - 2 corners #4 (FR pointing right)',
-        #'scramble': "R U B2 R' D2 L U2 L U' R2 U' L2 D B2 D B2 R2",
         'solution': "U' (R' F R U) (R U' R' F')",
     },
     {
         'case': 'WV - 2 corners #5 (BR pointing right)',
-        #'scramble': "R2 U' F2 U R' U R U' B2 U' F2 U B2 U R2",
         'solution': "R2 D R' U' R D' R2'",
     },
     {
         'case': 'WV - 2 corners #6 (BL pointing left)',
-        #'scramble': "L F2 L2 B2 L' D2 R' U' L2 F2 B2 U B2 D' F2 U2",
-        'solution': "(R U R' U') (R U' R') ",
+        'solution': "(R U R' U') (R U' R')",
     },
 ]
 
-enabled_cases = [cases[0], cases[1], cases[4]]
+enabled_cases = [cases[0], cases[1], cases[4], cases[6]]
 
 while True:
     # to get a scramble for case X:
