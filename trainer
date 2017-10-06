@@ -6,6 +6,8 @@ import re
 
 import kociemba # https://github.com/muodov/kociemba
 
+from termcolor import colored
+
 #             |************|
 #             |*U0**U1**U2*|
 #             |************|
@@ -46,6 +48,44 @@ class CubeState:
                 + ''.join(self._D)
                 + ''.join(self._L)
                 + ''.join(self._B))
+
+    def colored(self):
+        U = self._U
+        R = self._R
+        F = self._F
+        D = self._D
+        L = self._L
+        B = self._B
+        text = ('   '+U[0]+U[1]+U[2]+'      ' + '\n' +
+                '   '+U[3]+U[4]+U[5]+'      ' + '\n' +
+                '   '+U[6]+U[7]+U[8]+'      ' + '\n' +
+                L[0]+L[1]+L[2]+F[0]+F[1]+F[2]+R[0]+R[1]+R[2]+B[0]+B[1]+B[2] + '\n' +
+                L[3]+L[4]+L[5]+F[3]+F[4]+F[5]+R[3]+R[4]+R[5]+B[3]+B[4]+B[5] + '\n' +
+                L[6]+L[7]+L[8]+F[6]+F[7]+F[8]+R[6]+R[7]+R[8]+B[6]+B[7]+B[8] + '\n' +
+                '   '+D[0]+D[1]+D[2]+'      ' + '\n' +
+                '   '+D[3]+D[4]+D[5]+'      ' + '\n' +
+                '   '+D[6]+D[7]+D[8]+'      ' + '\n')
+        result = ''
+        for c in text:
+            if c == '\n':
+                result += c
+            elif c == ' ':
+                result += c*2
+            elif c == 'U':
+                result += colored(c*2, 'yellow', 'on_yellow')
+            elif c == 'F':
+                result += colored(c*2, 'green', 'on_green')
+            elif c == 'L':
+                result += colored(c*2, 'red', 'on_red')
+            elif c == 'R':
+                result += colored(c*2, 'magenta', 'on_magenta')
+            elif c == 'B':
+                result += colored(c*2, 'blue', 'on_blue')
+            elif c == 'D':
+                result += colored(c*2, 'grey', 'on_grey')
+            else:
+                result += colored(c*2, 'red', 'on_red')
+        return result
 
     @staticmethod
     def _rotate1(x):
@@ -316,7 +356,6 @@ cases = [
         'case': 'WV - 1 corner - #8 (BL pointing back, BR pointing right)',
         'solution': "U (R U' R' U) (R U2' R')"
     },
-
     {
         'case': 'WV - 1 corner - #9 (BL pointing back, BR pointing back)',
         'comment': 'insert to Sune',
@@ -379,11 +418,14 @@ while True:
 
     idx = random.randrange(len(enabled_cases))
     case = enabled_cases[idx]
-    s = CubeState()
+    inv = CubeState()
     pll = plls[random.randrange(len(plls))]
-    s.scramble(case['solution'] + ' ' + pll)
-    scramble = kociemba.solve(s.state())
+    inv.scramble(case['solution'] + ' ' + pll)
+    scramble = kociemba.solve(inv.state())
     print('\nscramble: %s' % scramble)
+    fwd = CubeState()
+    fwd.scramble(scramble)
+    print(fwd.colored())
     print('? ', end='')
     sys.stdout.flush()
     action = sys.stdin.readline()
