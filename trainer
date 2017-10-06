@@ -268,36 +268,96 @@ plls = [
 
 cases = [
     {
-        'case': 'WV - 3 corners',
+        'case': 'WV - 3 corners - #1',
         'solution': "L' U2 (R U R') U2 L",
     },
+
     {
-        'case': 'WV - 2 corners #1 (FR pointing front)',
+        'case': 'WV - 2 corners - #2 (FR pointing front)',
         'solution': "R U' R'",
     },
     {
-        'case': 'WV - 2 corners #2 (BR pointing back)',
-        'solution': "[insert to Sune] (R U' R') U [R' U' R U' R' U2 R]",
+        'case': 'WV - 2 corners - #3 (BR pointing back)',
+        'comment': 'insert to Sune',
+        'solution': "(R U' R') U [R' U' R U' R' U2 R]",
     },
     {
-        'case': 'WV - 2 corners #3 (BL pointing back)',
+        'case': 'WV - 2 corners - #4 (BL pointing back)',
         'solution': "U' (R U' R' U2) (R U' R' U2) (R U R')",
     },
     {
-        'case': 'WV - 2 corners #4 (FR pointing right)',
+        'case': 'WV - 2 corners - #5 (FR pointing right)',
         'solution': "U' (R' F R U) (R U' R' F')",
     },
     {
-        'case': 'WV - 2 corners #5 (BR pointing right)',
+        'case': 'WV - 2 corners - #6 (BR pointing right)',
         'solution': "R2 D R' U' R D' R2'",
     },
     {
-        'case': 'WV - 2 corners #6 (BL pointing left)',
+        'case': 'WV - 2 corners - #7 (BL pointing left)',
         'solution': "(R U R' U') (R U' R')",
+    },
+
+    {
+        'case': 'WV - 1 corner - #8 (BL pointing back, BR pointing right)',
+        'solution': "U (R U' R' U) (R U2' R')"
+    },
+
+    {
+        'case': 'WV - 1 corner - #9 (BL pointing back, BR pointing back)',
+        'comment': 'insert to Sune',
+        'solution': "U (R U2' R') U' [R U R' U R U2' R']",
+    },
+    {
+        'case': 'WV - 1 corner - #10 (BL pointing back, FR pointing front)',
+        'comment': 'insert to OLL',
+        'solution': "(R U' R') -> [OLL]",
+    },
+    {
+        'case': 'WV - 1 corner - #11 (BL pointing back, FR pointing right)',
+        'comment': 'insert to Sune',
+        'solution': "(R U' R') U2 [R U R' U R U2' R']",
+    },
+    {
+        'case': 'WV - 1 corner - #12 (BL pointing left, BR pointing back)',
+        'comment': 'insert to Sune',
+        'solution': "(R U' R') U' [R U2 R' U' R U' R']",
+    },
+    {
+        'case': 'WV - 1 corner - #13 (BL pointing left, BR pointing right)',
+        'solution': "U F' (R U2' R' U2) R' F R",
+    },
+    {
+        'case': 'WV - 1 corner - #14 (BL pointing left, FR pointing front)',
+        'comment': 'insert to Sune',
+        'solution': "U R U2' [R2' U' R U' R' U2 R]",
+    },
+    {
+        'case': 'WV - 1 corner - #15 (BL pointing left, FR pointing right)',
+        'solution': "U' L' (U R U' R') L",
+    },
+    {
+        'case': 'WV - 1 corner - #16 (BR pointing back, FR pointing front)',
+        'comment': 'insert to OLL',
+        'solution': "(R U' R') -> [OLL]",
+    },
+    {
+        'case': 'WV - 1 corner - #17 (BL pointing back, FR pointing right)',
+        'comment': 'insert to OLL',
+        'solution': "(R U' R') -> [OLL]",
+    },
+    {
+        'case': 'WV - 1 corner - #18 (BL pointing right, FR pointing front)',
+        'comment': 'insert to OLL',
+        'solution': "(R U' R') -> [OLL]",
+    },
+    {
+        'case': 'WV - 1 corner - #19 (BL pointing right, FR pointing right)',
+        'solution': "U R U2' R'",
     },
 ]
 
-enabled_cases = [cases[0], cases[1], cases[4], cases[6]]
+enabled_cases = [cases[0], cases[1], cases[3], cases[4], cases[6], cases[18]]
 
 while True:
     # to get a scramble for case X:
