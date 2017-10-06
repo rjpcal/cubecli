@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import random
 import sys
 import re
@@ -290,31 +291,85 @@ class CubeState:
 
 plls = [
     # EPLLs
-    "R2 U (R U R' U') R' U' (R' U R')",                              # Ub
-    "(R' U R' U') R' U' (R' U R U) R2'",                             # Ub
-    "(R U' R U) R U (R U' R' U') R2",                                # Ua
-    "(R U R' U) (R' U' R2 U') R' U R' U R",                          # Ua
-    "(R' U' R U' R U) (R U' R' U R U R2 U' R')",                     # Z
-    "(R2 U2 R U2 R2) U2 (R2 U2 R U2 R2)",                            # H
-
+    {
+        'name': 'Ub (bar back)',
+        'solution': "R2 U (R U R' U') R' U' (R' U R')",
+    },
+    {
+        'name': 'Ub (bar front)',
+        'solution': "(R' U R' U') R' U' (R' U R U) R2'",
+    },
+    {
+        'name': 'Ua (bar back)',
+        'solution': "(R U' R U) R U (R U' R' U') R2",
+    },
+    {
+        'name': 'Ua (bar front)',
+        'solution': "(R U R' U) (R' U' R2 U') R' U R' U R",
+    },
+    {
+        'name': 'Z',
+        'solution': "(R' U' R U' R U) (R U' R' U R U R2 U' R')",
+    },
+    {
+        'name': 'H',
+        'solution': "(R2 U2 R U2 R2) U2 (R2 U2 R U2 R2)",
+    },
     # ECLLs
-    "R' F R' B2 R F' R' B2 R2",                                      # Aa
-    "R2' B2 (R F R') B2 (R F' R)",                                   # Ab
-    "(R B' R' F) (R B R' F') (R B R' F) (R B' R' F')",               # E
-
+    {
+        'name': 'Aa',
+        'solution': "R' F R' B2 R F' R' B2 R2",
+    },
+    {
+        'name': 'Ab',
+        'solution': "R2' B2 (R F R') B2 (R F' R)",
+    },
+    {
+        'name': 'E',
+        'solution': "(R B' R' F) (R B R' F') (R B R' F) (R B' R' F')",
+    },
     # adjacent corner swap + edge swap
-    "(R U R' F') (R U2 R' U2') (R' F R U) (R U2' R') [U']",          # Ra
-    "(R' U2 R U2) R' F (R U R' U') R' F' R2 [U']",                   # Rb
-    "(R' U L' U2) (R U' R' U2 R) L [U']",                            # Ja
-    "(R U R' F') (R U R' U') R' F R2 U' R' [U']",                    # Jb
-    "(R U R' U') (R' F R2 U') R' U' (R U R' F')",                    # T
-    "(R' U' F')(R U R' U')(R' F R2 U')(R' U' R U)(R' U R)",          # F
-
+    {
+        'name': 'Ra',
+        'solution': "(R U R' F') (R U2 R' U2') (R' F R U) (R U2' R') [U']",
+    },
+    {
+        'name': 'Rb',
+        'solution': "(R' U2 R U2) R' F (R U R' U') R' F' R2 [U']",
+    },
+    {
+        'name': 'Ja',
+        'solution': "(R' U L' U2) (R U' R' U2 R) L [U']",
+    },
+    {
+        'name': 'Jb',
+        'solution': "(R U R' F') (R U R' U') R' F R2 U' R' [U']",
+    },
+    {
+        'name': 'T',
+        'solution': "(R U R' U') (R' F R2 U') R' U' (R U R' F')",
+    },
+    {
+        'name': 'F',
+        'solution': "(R' U' F')(R U R' U')(R' F R2 U')(R' U' R U)(R' U R)",
+    },
     # diagonal corner swap + edge swap
-    "(F' U F' U') (R' F' R2 U') (R' U R' F) R F",                    # V
-    "F (R U' R' U') (R U R' F') (R U R' U') (R' F R F')",            # Y
-    "(R U R' U)(R U R' F')(R U R' U')(R' F R2 U') R' U2 (R U' R')",  # Na
-    "(R' U R U') (R' F' U' F) (R U R' F) R' F' (R U' R)",            # Nb
+    {
+        'name': 'V',
+        'solution': "(F' U F' U') (R' F' R2 U') (R' U R' F) R F",
+    },
+    {
+        'name': 'Y',
+        'solution': "F (R U' R' U') (R U R' F') (R U R' U') (R' F R F')",
+    },
+    {
+        'name': 'Na',
+        'solution': "(R U R' U)(R U R' F')(R U R' U')(R' F R2 U') R' U2 (R U' R')",
+    },
+    {
+        'name': 'Nb',
+        'solution': "(R' U R U') (R' F' U' F) (R U R' F) R' F' (R U' R)",
+    },
 ]
 
 # to get a scramble for case X:
@@ -322,90 +377,90 @@ plls = [
 
 cases = [
     {
-        'case': 'WV - 3 corners - #1',
+        'name': 'WV - 3 corners - #1',
         'solution': "L' U2 (R U R') U2 L",
     },
 
     {
-        'case': 'WV - 2 corners - #2 (FR pointing front)',
+        'name': 'WV - 2 corners - #2 (FR pointing front)',
         'solution': "R U' R'",
     },
     {
-        'case': 'WV - 2 corners - #3 (BR pointing back)',
+        'name': 'WV - 2 corners - #3 (BR pointing back)',
         'comment': 'insert to Sune',
         'solution': "(R U' R') U [R' U' R U' R' U2 R]",
     },
     {
-        'case': 'WV - 2 corners - #4 (BL pointing back)',
+        'name': 'WV - 2 corners - #4 (BL pointing back)',
         'solution': "U' (R U' R' U2) (R U' R' U2) (R U R')",
     },
     {
-        'case': 'WV - 2 corners - #5 (FR pointing right)',
+        'name': 'WV - 2 corners - #5 (FR pointing right)',
         'solution': "U' (R' F R U) (R U' R' F')",
     },
     {
-        'case': 'WV - 2 corners - #6 (BR pointing right)',
+        'name': 'WV - 2 corners - #6 (BR pointing right)',
         'solution': "R2 D R' U' R D' R2'",
     },
     {
-        'case': 'WV - 2 corners - #7 (BL pointing left)',
+        'name': 'WV - 2 corners - #7 (BL pointing left)',
         'solution': "(R U R' U') (R U' R')",
     },
 
     {
-        'case': 'WV - 1 corner - #8 (BL pointing back, BR pointing right)',
+        'name': 'WV - 1 corner - #8 (BL pointing back, BR pointing right)',
         'solution': "U (R U' R' U) (R U2' R')"
     },
     {
-        'case': 'WV - 1 corner - #9 (BL pointing back, BR pointing back)',
+        'name': 'WV - 1 corner - #9 (BL pointing back, BR pointing back)',
         'comment': 'insert to Sune',
         'solution': "U (R U2' R') U' [R U R' U R U2' R']",
     },
     {
-        'case': 'WV - 1 corner - #10 (BL pointing back, FR pointing front)',
+        'name': 'WV - 1 corner - #10 (BL pointing back, FR pointing front)',
         'comment': 'insert to OLL',
         'solution': "(R U' R') -> [OLL]",
     },
     {
-        'case': 'WV - 1 corner - #11 (BL pointing back, FR pointing right)',
+        'name': 'WV - 1 corner - #11 (BL pointing back, FR pointing right)',
         'comment': 'insert to Sune',
         'solution': "(R U' R') U2 [R U R' U R U2' R']",
     },
     {
-        'case': 'WV - 1 corner - #12 (BL pointing left, BR pointing back)',
+        'name': 'WV - 1 corner - #12 (BL pointing left, BR pointing back)',
         'comment': 'insert to Sune',
         'solution': "(R U' R') U' [R U2 R' U' R U' R']",
     },
     {
-        'case': 'WV - 1 corner - #13 (BL pointing left, BR pointing right)',
+        'name': 'WV - 1 corner - #13 (BL pointing left, BR pointing right)',
         'solution': "U F' (R U2' R' U2) R' F R",
     },
     {
-        'case': 'WV - 1 corner - #14 (BL pointing left, FR pointing front)',
+        'name': 'WV - 1 corner - #14 (BL pointing left, FR pointing front)',
         'comment': 'insert to Sune',
         'solution': "U R U2' [R2' U' R U' R' U2 R]",
     },
     {
-        'case': 'WV - 1 corner - #15 (BL pointing left, FR pointing right)',
+        'name': 'WV - 1 corner - #15 (BL pointing left, FR pointing right)',
         'solution': "U' L' (U R U' R') L",
     },
     {
-        'case': 'WV - 1 corner - #16 (BR pointing back, FR pointing front)',
+        'name': 'WV - 1 corner - #16 (BR pointing back, FR pointing front)',
         'comment': 'insert to OLL',
         'solution': "(R U' R') -> [OLL]",
     },
     {
-        'case': 'WV - 1 corner - #17 (BL pointing back, FR pointing right)',
+        'name': 'WV - 1 corner - #17 (BL pointing back, FR pointing right)',
         'comment': 'insert to OLL',
         'solution': "(R U' R') -> [OLL]",
     },
     {
-        'case': 'WV - 1 corner - #18 (BL pointing right, FR pointing front)',
+        'name': 'WV - 1 corner - #18 (BL pointing right, FR pointing front)',
         'comment': 'insert to OLL',
         'solution': "(R U' R') -> [OLL]",
     },
     {
-        'case': 'WV - 1 corner - #19 (BL pointing right, FR pointing right)',
+        'name': 'WV - 1 corner - #19 (BL pointing right, FR pointing right)',
         'solution': "U R U2' R'",
     },
 ]
@@ -420,7 +475,7 @@ while True:
     case = enabled_cases[idx]
     inv = CubeState()
     pll = plls[random.randrange(len(plls))]
-    inv.scramble(case['solution'] + ' ' + pll)
+    inv.scramble(case['solution'] + ' ' + pll['solution'])
     scramble = kociemba.solve(inv.state())
     print('\nscramble: %s' % scramble)
     fwd = CubeState()
@@ -429,5 +484,5 @@ while True:
     print('? ', end='')
     sys.stdout.flush()
     action = sys.stdin.readline()
-    print('case was %s' % case)
-    print('pll was %s' % pll)
+    print('case was %s' % json.dumps(case, indent=2))
+    print('pll was %s' % json.dumps(pll, indent=2))
