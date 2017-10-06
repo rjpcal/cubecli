@@ -249,18 +249,32 @@ class CubeState:
 
 
 plls = [
-    "R' F R' B2 R F' R' B2 R2",                             # Aa
-    "(R U R' F') (R U2 R' U2') (R' F R U) (R U2' R') [U']", # Ra
-    "(R' U2 R U2) R' F (R U R' U') R' F' R2 [U']",          # Rb
-    "(R' U L' U2) (R U' R' U2 R) L [U']",                   # Ja
-    "(R U R' F') (R U R' U') R' F R2 U' R' [U']",           # Jb
-    "R2 U (R U R' U') R' U' (R' U R')",                     # Ub
-    "(R' U R' U') R' U' (R' U R U) R2'",                    # Ub
-    "(R U' R U) R U (R U' R' U') R2",                       # Ua
-    "(R U R' U) (R' U' R2 U') R' U R' U R",                 # Ua
-    "(R U R' U') (R' F R2 U') R' U' (R U R' F')",           # T
-    "(R' U' F')(R U R' U')(R' F R2 U')(R' U' R U)(R' U R)", # F
-    "F (R U' R' U') (R U R' F') (R U R' U') (R' F R F')",   # Y
+    # EPLLs
+    "R2 U (R U R' U') R' U' (R' U R')",                              # Ub
+    "(R' U R' U') R' U' (R' U R U) R2'",                             # Ub
+    "(R U' R U) R U (R U' R' U') R2",                                # Ua
+    "(R U R' U) (R' U' R2 U') R' U R' U R",                          # Ua
+    "(R' U' R U' R U) (R U' R' U R U R2 U' R')",                     # Z
+    "(R2 U2 R U2 R2) U2 (R2 U2 R U2 R2)",                            # H
+
+    # ECLLs
+    "R' F R' B2 R F' R' B2 R2",                                      # Aa
+    "R2' B2 (R F R') B2 (R F' R)",                                   # Ab
+    "(R B' R' F) (R B R' F') (R B R' F) (R B' R' F')",               # E
+
+    # adjacent corner swap + edge swap
+    "(R U R' F') (R U2 R' U2') (R' F R U) (R U2' R') [U']",          # Ra
+    "(R' U2 R U2) R' F (R U R' U') R' F' R2 [U']",                   # Rb
+    "(R' U L' U2) (R U' R' U2 R) L [U']",                            # Ja
+    "(R U R' F') (R U R' U') R' F R2 U' R' [U']",                    # Jb
+    "(R U R' U') (R' F R2 U') R' U' (R U R' F')",                    # T
+    "(R' U' F')(R U R' U')(R' F R2 U')(R' U' R U)(R' U R)",          # F
+
+    # diagonal corner swap + edge swap
+    "(F' U F' U') (R' F' R2 U') (R' U R' F) R F",                    # V
+    "F (R U' R' U') (R U R' F') (R U R' U') (R' F R F')",            # Y
+    "(R U R' U)(R U R' F')(R U R' U')(R' F R2 U') R' U2 (R U' R')",  # Na
+    "(R' U R U') (R' F' U' F) (R U R' F) R' F' (R U' R)",            # Nb
 ]
 
 # to get a scramble for case X:
@@ -361,7 +375,7 @@ enabled_cases = [cases[0], cases[1], cases[3], cases[4], cases[6], cases[18]]
 
 while True:
     # to get a scramble for case X:
-    # get a solution for scramble: (solution for case X) (random pll)
+    # get a solution for inverse scramble: (solution for case X) (random pll)
 
     idx = random.randrange(len(enabled_cases))
     case = enabled_cases[idx]
