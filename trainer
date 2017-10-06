@@ -419,7 +419,7 @@ cases = [
     {
         'name': 'WV - 1 corner - #10 (BL pointing back, FR pointing front)',
         'comment': 'insert to OLL',
-        'solution': "(R U' R') -> [OLL]",
+        'solution': "(R U' R') U [(L F R' F') (L' F R F')]",
     },
     {
         'name': 'WV - 1 corner - #11 (BL pointing back, FR pointing right)',
@@ -447,21 +447,28 @@ cases = [
     {
         'name': 'WV - 1 corner - #16 (BR pointing back, FR pointing front)',
         'comment': 'insert to OLL',
-        'solution': "(R U' R') -> [OLL]",
+        'solution': "(R U' R') U2 [(L F R' F') (L' F R F')]",
     },
     {
         'name': 'WV - 1 corner - #17 (BL pointing back, FR pointing right)',
         'comment': 'insert to OLL',
-        'solution': "(R U' R') -> [OLL]",
+        'solution': "(R U' R') U2 [R2 D (R' U2 R) D' (R' U2 R')]",
     },
     {
         'name': 'WV - 1 corner - #18 (BL pointing right, FR pointing front)',
         'comment': 'insert to OLL',
-        'solution': "(R U' R') -> [OLL]",
+        'solution': "(R U' R') U [R2 D (R' U2 R) D' (R' U2 R')]",
     },
     {
         'name': 'WV - 1 corner - #19 (BL pointing right, FR pointing right)',
         'solution': "U R U2' R'",
+    },
+
+
+    {
+        'name': 'WV - 0 corners - #27 (BL pointing right, BR pointing right, FR pointing right)',
+        'comment': 'insert to OLL',
+        'solution': "(R U' R') U2 [R U2' R2' U' R2 U' R2' U2' R]",
     },
 ]
 
