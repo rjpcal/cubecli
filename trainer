@@ -378,32 +378,38 @@ plls = [
 cases = [
     {
         'name': 'WV - 3 corners - #1',
+        'comment': 'skips bow-tie',
         'solution': "L' U2 (R U R') U2 L",
     },
 
     {
         'name': 'WV - 2 corners - #2 (FR pointing front)',
+        'comment': 'normal insert',
         'solution': "R U' R'",
     },
     {
         'name': 'WV - 2 corners - #3 (BR pointing back)',
-        'comment': 'insert to Sune',
+        'comment': 'insert to back anti-sune',
         'solution': "(R U' R') U [R' U' R U' R' U2 R]",
     },
     {
         'name': 'WV - 2 corners - #4 (BL pointing back)',
+        'comment': 'skips headlights',
         'solution': "U' (R U' R' U2) (R U' R' U2) (R U R')",
     },
     {
         'name': 'WV - 2 corners - #5 (FR pointing right)',
+        'comment': 'skips bow-tie',
         'solution': "U' (R' F R U) (R U' R' F')",
     },
     {
         'name': 'WV - 2 corners - #6 (BR pointing right)',
+        'comment': 'skips chameleon',
         'solution': "R2 D R' U' R D' R2'",
     },
     {
         'name': 'WV - 2 corners - #7 (BL pointing left)',
+        'comment': 'skips anti-sune',
         'solution': "(R U R' U') (R U' R')",
     },
 
@@ -456,11 +462,12 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #18 (BL pointing right, FR pointing front)',
-        'comment': 'insert to OLL',
+        'comment': 'insert to OLL (headlights)',
         'solution': "(R U' R') U [R2 D (R' U2 R) D' (R' U2 R')]",
     },
     {
         'name': 'WV - 1 corner - #19 (BL pointing right, FR pointing right)',
+        'comment': 'skips sune'
         'solution': "U R U2' R'",
     },
 
@@ -472,7 +479,16 @@ cases = [
     },
 ]
 
-enabled_cases = [cases[0], cases[1], cases[3], cases[4], cases[6], cases[18]]
+enabled_cases = [
+    cases[0],
+    cases[1],
+    cases[2],
+    cases[3],
+    cases[4],
+    cases[5],
+    cases[6],
+    cases[18],
+]
 
 while True:
     # to get a scramble for case X:
