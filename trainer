@@ -415,11 +415,12 @@ cases = [
 
     {
         'name': 'WV - 1 corner - #8 (BL pointing back, BR pointing right)',
-        'solution': "U (R U' R' U) (R U2' R')"
+        'comment': 'skips double-sune',
+        'solution': "(U R U' R') U (R U2' R')"
     },
     {
         'name': 'WV - 1 corner - #9 (BL pointing back, BR pointing back)',
-        'comment': 'insert to Sune',
+        'comment': 'insert to Sune - skips pi',
         'solution': "U (R U2' R') U' [R U R' U R U2' R']",
     },
     {
@@ -439,6 +440,7 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #13 (BL pointing left, BR pointing right)',
+        'comment': 'skips pi',
         'solution': "U F' (R U2' R' U2) R' F R",
     },
     {
@@ -448,6 +450,7 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #15 (BL pointing left, FR pointing right)',
+        'comment': 'skips chameleon',
         'solution': "U' L' (U R U' R') L",
     },
     {
@@ -457,7 +460,7 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #17 (BL pointing back, FR pointing right)',
-        'comment': 'insert to OLL',
+        'comment': 'insert to OLL (headlights)',
         'solution': "(R U' R') U2 [R2 D (R' U2 R) D' (R' U2 R')]",
     },
     {
@@ -467,10 +470,9 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #19 (BL pointing right, FR pointing right)',
-        'comment': 'skips sune'
+        'comment': 'skips sune',
         'solution': "U R U2' R'",
     },
-
 
     {
         'name': 'WV - 0 corners - #27 (BL pointing right, BR pointing right, FR pointing right)',
@@ -487,6 +489,7 @@ enabled_cases = [
     cases[4],
     cases[5],
     cases[6],
+    cases[7],
     cases[18],
 ]
 
