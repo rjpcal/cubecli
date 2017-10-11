@@ -493,6 +493,8 @@ enabled_cases = [
     cases[18],
 ]
 
+aufs = [ '', 'U', 'U\'', 'U2' ]
+
 while True:
     # to get a scramble for case X:
     # get a solution for inverse scramble: (solution for case X) (random pll)
@@ -501,7 +503,10 @@ while True:
     case = enabled_cases[idx]
     inv = CubeState()
     pll = plls[random.randrange(len(plls))]
-    inv.scramble(case['solution'] + ' ' + pll['solution'])
+    auf1 = aufs[random.randrange(len(aufs))]
+    auf2 = aufs[random.randrange(len(aufs))]
+    auf3 = aufs[random.randrange(len(aufs))]
+    inv.scramble(auf1 + ' ' + case['solution'] + ' ' + auf2 + ' ' + pll['solution'] + ' ' + auf3)
     scramble = kociemba.solve(inv.state())
     print('\nscramble: %s' % scramble)
     fwd = CubeState()
@@ -510,5 +515,8 @@ while True:
     print('? ', end='')
     sys.stdout.flush()
     action = sys.stdin.readline()
+    print('auf1 was %s' % auf1)
     print('case was %s' % json.dumps(case, indent=2))
+    print('auf2 was %s' % auf2)
     print('pll was %s' % json.dumps(pll, indent=2))
+    print('auf3 was %s' % auf3)
