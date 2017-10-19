@@ -425,7 +425,7 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #10 (BL pointing back, FR pointing front)',
-        'comment': 'insert to OLL',
+        'comment': 'insert to OLL (chameleon)',
         'solution': "(R U' R') U [(L F R' F') (L' F R F')]",
     },
     {
@@ -435,7 +435,7 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #12 (BL pointing left, BR pointing back)',
-        'comment': 'insert to Sune',
+        'comment': 'insert to anti-Sune',
         'solution': "(R U' R') U' [R U2 R' U' R U' R']",
     },
     {
@@ -445,7 +445,7 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #14 (BL pointing left, FR pointing front)',
-        'comment': 'insert to Sune',
+        'comment': 'insert to back anti-Sune',
         'solution': "U R U2' [R2' U' R U' R' U2 R]",
     },
     {
@@ -455,7 +455,7 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #16 (BR pointing back, FR pointing front)',
-        'comment': 'insert to OLL',
+        'comment': 'insert to OLL (chameleon)',
         'solution': "(R U' R') U2 [(L F R' F') (L' F R F')]",
     },
     {
@@ -475,8 +475,40 @@ cases = [
     },
 
     {
-        'name': 'WV - 0 corners - #27 (BL pointing right, BR pointing right, FR pointing right)',
-        'comment': 'insert to OLL',
+        'name': 'WV - 0 corners - #20 (BL pointing back, BR pointing right, FR pointing front)',
+        'comment': 'insert to Sune',
+        'solution': "(R U' R') U' [R U R' U R U2' R']",
+    },
+    {
+        'name': 'WV - 0 corners - #21 (BL pointing back, BR pointing right, FR pointing right)',
+        'comment': 'insert to back Sune',
+        'solution': "R U' [R2' U2' R U R' U R]",
+    },
+    {
+        'name': 'WV - 0 corners - #22 (BL pointing back, BR pointing back, FR pointing front)',
+        'solution': "U (R U' R' U) (R U' R' U) R U2' R'",
+    },
+    {
+        'name': 'WV - 0 corners - #23 (BL pointing back, BR pointing back, FR pointing right)',
+        'comment': 'U2 insert to back Sune',
+        'solution': "U R U2' [R2' U2' R U R' U R]",
+    },
+    {
+        'name': 'WV - 0 corners - #24 (BL pointing left, BR pointing back, FR pointing front)',
+        'comment': 'insert to back anti-Sune',
+        'solution': "R U' [R2' U' R U' R' U2 R]",
+    },
+    {
+        'name': 'WV - 0 corners - #25 (BL pointing left, BR pointing back, FR pointing right)',
+        'solution': "(R U R' U') (R U R' U') R U' R'",
+    },
+    {
+        'name': 'WV - 0 corners - #26 (BL pointing left, BR pointing right, FR pointing front)',
+        'solution': "R2 D R' U R D' R' U2 R'",
+    },
+    {
+        'name': 'WV - 0 corners - #27 (BL pointing left, BR pointing right, FR pointing right)',
+        'comment': 'insert to OLL (pi)',
         'solution': "(R U' R') U2 [R U2' R2' U' R2 U' R2' U2' R]",
     },
 ]
@@ -490,6 +522,8 @@ enabled_cases = [
     cases[5],
     cases[6],
     cases[7],
+    cases[8],
+    cases[9],
     cases[18],
 ]
 
