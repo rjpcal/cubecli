@@ -420,7 +420,7 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #9 (BL pointing back, BR pointing back)',
-        'comment': 'insert to Sune - skips pi',
+        'comment': 'U2 insert to sune - skips pi',
         'solution': "U (R U2' R') U' [R U R' U R U2' R']",
     },
     {
@@ -430,7 +430,7 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #11 (BL pointing back, FR pointing right)',
-        'comment': 'insert to Sune',
+        'comment': 'insert to sune',
         'solution': "(R U' R') U2 [R U R' U R U2' R']",
     },
     {
@@ -445,7 +445,7 @@ cases = [
     },
     {
         'name': 'WV - 1 corner - #14 (BL pointing left, FR pointing front)',
-        'comment': 'insert to back anti-Sune',
+        'comment': 'U2 insert to back anti-aune - skips headlights',
         'solution': "U R U2' [R2' U' R U' R' U2 R]",
     },
     {
@@ -476,34 +476,37 @@ cases = [
 
     {
         'name': 'WV - 0 corners - #20 (BL pointing back, BR pointing right, FR pointing front)',
-        'comment': 'insert to Sune',
+        'comment': 'insert to sune',
         'solution': "(R U' R') U' [R U R' U R U2' R']",
     },
     {
         'name': 'WV - 0 corners - #21 (BL pointing back, BR pointing right, FR pointing right)',
-        'comment': 'insert to back Sune',
+        'comment': 'insert to back sune',
         'solution': "R U' [R2' U2' R U R' U R]",
     },
     {
         'name': 'WV - 0 corners - #22 (BL pointing back, BR pointing back, FR pointing front)',
-        'solution': "U (R U' R' U) (R U' R' U) R U2' R'",
+        'comment': 'skips bowtie',
+        'solution': "(U R U' R') (U (R U' R') U R U2' R'",
     },
     {
         'name': 'WV - 0 corners - #23 (BL pointing back, BR pointing back, FR pointing right)',
-        'comment': 'U2 insert to back Sune',
+        'comment': 'U2 insert to back sune - skips pi',
         'solution': "U R U2' [R2' U2' R U R' U R]",
     },
     {
         'name': 'WV - 0 corners - #24 (BL pointing left, BR pointing back, FR pointing front)',
-        'comment': 'insert to back anti-Sune',
+        'comment': 'insert to back anti-sune',
         'solution': "R U' [R2' U' R U' R' U2 R]",
     },
     {
         'name': 'WV - 0 corners - #25 (BL pointing left, BR pointing back, FR pointing right)',
+        'comment': 'skips double sune',
         'solution': "(R U R' U') (R U R' U') R U' R'",
     },
     {
         'name': 'WV - 0 corners - #26 (BL pointing left, BR pointing right, FR pointing front)',
+        'comment': 'skips bowtie'
         'solution': "R2 D R' U R D' R' U2 R'",
     },
     {
