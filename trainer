@@ -506,7 +506,7 @@ cases = [
     },
     {
         'name': 'WV - 0 corners - #26 (BL pointing left, BR pointing right, FR pointing front)',
-        'comment': 'skips bowtie'
+        'comment': 'skips bowtie',
         'solution': "R2 D R' U R D' R' U2 R'",
     },
     {
