@@ -278,6 +278,24 @@ class CubeState:
     def ri(self):
         return self.X().X().X().L().L().L()
 
+    def l(self):
+        return self.X().X().X().R()
+
+    def li(self):
+        return self.X().R().R().R()
+
+    def u(self):
+        return self.Y().D()
+
+    def ui(self):
+        return self.Y().Y().Y().D().D().D()
+
+    def f(self):
+        return self.Z().B()
+
+    def fi(self):
+        return self.Z().Z().Z().B().B().B()
+
     def scramble(self, moves):
         for m in re.split(r'[\s()\[\]]+', moves):
             if m == 'R':
@@ -324,26 +342,57 @@ class CubeState:
 
             elif m == 'M':
                 self.M()
+            elif m == 'M2' or m == 'M2\'':
+                self.M().M()
             elif m == 'M\'':
                 self.Mi()
 
             elif m == 'r':
                 self.r()
+            elif m == 'r2' or m == 'r2\'':
+                self.r().r()
             elif m == 'r\'':
                 self.ri()
 
+            elif m == 'u':
+                self.u()
+            elif m == 'u2' or m == 'u2\'':
+                self.u().u()
+            elif m == 'u\'':
+                self.ui()
+
+            elif m == 'f':
+                self.f()
+            elif m == 'f2' or m == 'f2\'':
+                self.f().f()
+            elif m == 'f\'':
+                self.fi()
+
+            elif m == 'l':
+                self.l()
+            elif m == 'l2' or m == 'l2\'':
+                self.l().l()
+            elif m == 'l\'':
+                self.li()
+
             elif m == 'y':
                 self.Y()
+            elif m == 'y2':
+                self.Y().Y()
             elif m == 'y\'':
                 self.Y().Y().Y()
 
             elif m == 'x':
                 self.X()
+            elif m == 'x2':
+                self.X().X()
             elif m == 'x\'':
                 self.X().X().X()
 
             elif m == 'z':
                 self.Z()
+            elif m == 'z2':
+                self.Z().Z()
             elif m == 'z\'':
                 self.Z().Z().Z()
 
@@ -354,7 +403,7 @@ class CubeState:
                 exit(-1)
 
 
-plls = [
+all_plls = [
     # EPLLs
     {
         'name': 'Ub (bar back)',
@@ -434,6 +483,281 @@ plls = [
     {
         'name': 'Nb',
         'solution': "(R' U R U') (R' F' U' F) (R U R' F) R' F' (R U' R)",
+    },
+    # double cycles
+    {
+        'name': 'Ga',
+        'solution': "R2 U (R' U R' U') (R U' R2) D U' (R' U R D') [U]",
+    },
+    {
+        'name': 'Gb',
+        'solution': "(F' U' F) (R2 u R' U) (R U' R u') R2'",
+    },
+    {
+        'name': 'Gc',
+        'solution': "R2' U' (R U' R U) (R' U R2 D') (U R U' R') D [U']",
+    },
+    {
+        'name': 'Gd',
+        'solution': "D' (R U R' U') D (R2 U' R U') (R' U R' U) R2 [U]",
+    },
+]
+
+oll_cases = [
+    # all edges oriented correctly
+    {
+        'name': 'OCLL6',
+        'solution': "R' U' R U' R' U2 R",
+    },
+    {
+        'name': 'OCLL7',
+        'solution': "R U R' U R U2' R'",
+    },
+    {
+        'name': 'OCLL1',
+        'solution': "(R U R' U) (R U' R' U) (R U2' R')",
+    },
+    {
+        'name': 'OCLL2',
+        'solution': "R U2' R2' U' R2 U' R2' U2' R",
+    },
+    {
+        'name': 'OCLL4',
+        'solution': "(r U R' U') (r' F R F')",
+    },
+    {
+        'name': 'OCLL5',
+        'solution': "F' (r U R' U') r' F R",
+    },
+    {
+        'name': 'OCLL3',
+        'solution': "R2 D (R' U2 R) D' (R' U2 R')",
+    },
+
+    # T shapes
+    {
+        'name': 'T1',
+        'solution': "(R U R' U') (R' F R F')",
+    },
+    {
+        'name': 'T2',
+        'solution': "F (R U R' U') F'",
+    },
+
+    # Squares
+    {
+        'name': 'S1',
+        'solution': "(r' U2' R U R' U r)",
+    },
+    {
+        'name': 'S2',
+        'solution': "(r U2 R' U' R U' r')",
+    },
+
+    # C shapes
+    {
+        'name': 'C1',
+        'solution': "(R U R2' U') (R' F R U) R U' F'",
+    },
+    {
+        'name': 'C2',
+        'solution': "R' U' (R' F R F') U R ",
+    },
+
+    # W shapes
+    {
+        'name': 'W1',
+        'solution': "(R' U' R U') (R' U R U) l U' R' U x",
+    },
+    {
+        'name': 'W2',
+        'solution': "(R U R' U) (R U' R' U') (R' F R F') ",
+    },
+
+    # corners correct, edges flipped
+    {
+        'name': 'E1',
+        'solution': "(r U R' U') M (U R U' R') ",
+    },
+    {
+        'name': 'E2',
+        'solution': "(R U R' U') M' (U R U' r') ",
+    },
+
+    # P shapes
+    {
+        'name': 'P1',
+        'solution': "(R' U' F) (U R U' R') F' R ",
+    },
+    {
+        'name': 'P2',
+        'solution': "R U B' (U' R' U) (R B R')",
+    },
+    {
+        'name': 'P3',
+        'solution': "R' U' F' U F R",
+    },
+    {
+        'name': 'P4',
+        'solution': "f (R U R' U') f'",
+    },
+
+    # I shapes
+    {
+        'name': 'I1',
+        'solution': "f (R U R' U') (R U R' U') f'",
+    },
+    {
+        'name': 'I2',
+        'solution': "(R U R' U R U') y (R U' R') F' y'",
+    },
+    {
+        'name': 'I3',
+        'solution': "[U] (R' F R U) (R U' R2' F') R2 U' R' (U R U R')",
+    },
+    {
+        'name': 'I4',
+        'solution': "r' U' r (U' R' U R) (U' R' U R) r' U r",
+    },
+
+    # Fish shapes
+    {
+        'name': 'F1',
+        'solution': "(R U R' U') R' F (R2 U R' U') F'",
+    },
+    {
+        'name': 'F2',
+        'solution': "(R U R' U) (R' F R F') (R U2' R')",
+    },
+    {
+        'name': 'F3',
+        'solution': "(R U2') (R2' F R F') (R U2' R')",
+    },
+    {
+        'name': 'F4',
+        'solution': "F (R U' R' U') (R U R' F') ",
+    },
+
+    # Knight move shapes
+    {
+        'name': 'K1',
+        'solution': "F U R U' R2' F' R U (R U' R')",
+    },
+    {
+        'name': 'K2',
+        'solution': "(R' F R) (U R' F' R) (F U' F')",
+    },
+    {
+        'name': 'K3',
+        'solution': "(r' U' r) (R' U' R U) (r' U r)",
+    },
+    {
+        'name': 'K4',
+        'solution': "(r U r') (R U R' U') (r U' r')",
+    },
+
+    # Awkward shapes
+    {
+        'name': 'A1',
+        'solution': "(R U R' U') (R U' R') (F' U' F) (R U R')",
+    },
+    {
+        'name': 'A2',
+        'solution': "F U (R U2 R' U') (R U2 R' U') F'",
+    },
+    {
+        'name': 'A3',
+        'solution': "(R U R' U R U2' R') F (R U R' U') F'",
+    },
+    {
+        'name': 'A4',
+        'solution': "(R' U' R U' R' U2 R) F (R U R' U') F'",
+    },
+
+    # L shapes
+    {
+        'name': 'L1',
+        'solution': "F' (L' U' L U) (L' U' L U) F",
+    },
+    {
+        'name': 'L2',
+        'solution': "F (R U R' U') (R U R' U') F'",
+    },
+    {
+        'name': 'L3',
+        'solution': "r U' r2' U r2 U r2' U' r",
+    },
+    {
+        'name': 'L4',
+        'solution': "r' U r2 U' r2' U' r2 U r'",
+    },
+    {
+        'name': 'L5',
+        'solution': "(r' U' R U') (R' U R U') R' U2 r",
+    },
+    {
+        'name': 'L6',
+        'solution': "(r U R' U) (R U' R' U) R U2' r'",
+    },
+
+    # Lightning bolts
+    {
+        'name': 'B1',
+        'solution': "(r U R' U R U2' r')",
+    },
+    {
+        'name': 'B2',
+        'solution': "(r' U' R U' R' U2 r)",
+    },
+    {
+        'name': 'B3',
+        'solution': "r' (R2 U R' U R U2 R') U M'",
+    },
+    {
+        'name': 'B4',
+        'solution': "F (R U R' U') F' U F (R U R' U') F'",
+    },
+    {
+        'name': 'B5',
+        'solution': "(L F') (L' U' L U) F U' L'",
+    },
+    {
+        'name': 'B6',
+        'solution': "(R' F) (R U R' U') F' U R",
+    },
+
+    # No edges flipped correctly
+    {
+        'name': 'O1',
+        'solution': "(R U2') (R2' F R F') U2' (R' F R F')",
+    },
+    {
+        'name': 'O2',
+        'solution': "F (R U R' U') F' f (R U R' U') f'",
+    },
+    {
+        'name': 'O3',
+        'solution': "f (R U R' U') f' U' F (R U R' U') F'",
+    },
+    {
+        'name': 'O4',
+        'solution': "f (R U R' U') f' U F (R U R' U') F'",
+    },
+    {
+        'name': 'O5',
+        'solution': "(R U R' U) (R' F R F') U2' (R' F R F')",
+    },
+    {
+        'name': 'O6',
+        'solution': "R U2' (R2' F R F') U2' M' (U R U' r')",
+    },
+    {
+        'name': 'O7',
+        'solution': "M U (R U R' U') M' (R' F R F')",
+    },
+    {
+        'name': 'O8',
+        'solution': "M U (R U R' U') M2' (U R U' r')",
     },
 ]
 
@@ -639,12 +963,15 @@ enabled_cases = [
     *cls_cases,
 ]
 
+plls = all_plls
+
 aufs = [ '', 'U', 'U\'', 'U2' ]
 
 while True:
     # to get a scramble for case X:
     # get a solution for inverse scramble: (solution for case X) (random pll)
     print('training %d of %d cases' % (len(enabled_cases), len(all_cases)))
+    print('using %d of %d plls' % (len(plls), len(all_plls)))
 
     idx = random.randrange(len(enabled_cases))
     case = enabled_cases[idx]
@@ -653,7 +980,9 @@ while True:
     auf1 = aufs[random.randrange(len(aufs))]
     auf2 = aufs[random.randrange(len(aufs))]
     auf3 = aufs[random.randrange(len(aufs))]
-    inv.scramble(auf1 + ' ' + case['solution'] + ' ' + auf2 + ' ' + pll['solution'] + ' ' + auf3)
+    steps = auf1 + ' ' + case['solution'] + ' ' + auf2 + ' ' + pll['solution'] + ' ' + auf3
+    print('\nsteps: %s' % steps)
+    inv.scramble(steps)
     scramble = kociemba.solve(inv.state())
     print('\nscramble: %s' % scramble)
     fwd = CubeState()
@@ -675,3 +1004,11 @@ while True:
         enabled_cases = cls_cases
     elif action == 'wv':
         enabled_cases = wv_cases
+    elif action == 'oll':
+        enabled_cases = oll_cases
+    elif action.startswith('pll='):
+        n = action[4:]
+        plls = list(filter(lambda x: x['name'].startswith(n), all_plls))
+    elif action.startswith('pll+'):
+        n = action[4:]
+        plls += list(filter(lambda x: x['name'].startswith(n), all_plls))
