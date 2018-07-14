@@ -283,62 +283,44 @@ class CubeState:
             if m == 'R':
                 self.R()
             elif m == 'R2' or m == 'R2\'':
-                self.R()
-                self.R()
+                self.R().R()
             elif m == 'R\'':
-                self.R()
-                self.R()
-                self.R()
+                self.R().R().R()
 
             elif m == 'L':
                 self.L()
             elif m == 'L2' or m == 'L2\'':
-                self.L()
-                self.L()
+                self.L().L()
             elif m == 'L\'':
-                self.L()
-                self.L()
-                self.L()
+                self.L().L().L()
 
             elif m == 'U':
                 self.U()
             elif m == 'U2' or m == 'U2\'':
-                self.U()
-                self.U()
+                self.U().U()
             elif m == 'U\'':
-                self.U()
-                self.U()
-                self.U()
+                self.U().U().U()
 
             elif m == 'D':
                 self.D()
             elif m == 'D2' or m == 'D2\'':
-                self.D()
-                self.D()
+                self.D().D()
             elif m == 'D\'':
-                self.D()
-                self.D()
-                self.D()
+                self.D().D().D()
 
             elif m == 'F':
                 self.F()
             elif m == 'F2' or m == 'F2\'':
-                self.F()
-                self.F()
+                self.F().F()
             elif m == 'F\'':
-                self.F()
-                self.F()
-                self.F()
+                self.F().F().F()
 
             elif m == 'B':
                 self.B()
             elif m == 'B2' or m == 'B2\'':
-                self.B()
-                self.B()
+                self.B().B()
             elif m == 'B\'':
-                self.B()
-                self.B()
-                self.B()
+                self.B().B().B()
 
             elif m == 'M':
                 self.M()
@@ -349,6 +331,21 @@ class CubeState:
                 self.r()
             elif m == 'r\'':
                 self.ri()
+
+            elif m == 'y':
+                self.Y()
+            elif m == 'y\'':
+                self.Y().Y().Y()
+
+            elif m == 'x':
+                self.X()
+            elif m == 'x\'':
+                self.X().X().X()
+
+            elif m == 'z':
+                self.Z()
+            elif m == 'z\'':
+                self.Z().Z().Z()
 
             elif m == '':
                 pass
@@ -443,7 +440,7 @@ plls = [
 # to get a scramble for case X:
 # get a solution for scramble: (solution for case X) (random pll)
 
-cases = [
+wv_cases = [
     {
         'name': 'WV - 3 corners - #1',
         'comment': 'skips bow-tie',
@@ -582,7 +579,9 @@ cases = [
         'comment': 'insert to OLL (pi)',
         'solution': "(R U' R') U2 [R U2' R2' U' R2 U' R2' U2' R]",
     },
+]
 
+vls_cases = [
     {
         'name': 'VLS - UF misoriented + 2 corners (BR pointing right)',
         'comment': 'test',
@@ -595,22 +594,49 @@ cases = [
     },
 ]
 
-enabled_cases = [
-    cases[0],
-    cases[1],
-    cases[2],
-    cases[3],
-    cases[4],
-    cases[5],
-    cases[6],
-    cases[7],
-    cases[8],
-    cases[9],
-    cases[18],
-    cases[27],
-    cases[28],
+cls_cases = [
+    {
+        'name': 'CLS - Corner facing front + 3 LL corners',
+        'comment': 'skips sune',
+        'solution': "y (R' D R) U' (R' D' R) y'",
+    },
+    {
+        'name': 'CLS - Corner facing front + 2 LL corners (BR facing right)',
+        'comment': 'skips bowtie',
+        'solution': "U' (R U' R') (U' R U2 R')",
+    },
+    {
+        'name': 'CLS - Corner facing front + 2 LL corners (BL facing back)',
+        'comment': 'test',
+        'solution': "y' U (R' U2 R) (U' R' U' R) y",
+    },
+    {
+        'name': 'CLS - "fauxlights" - Corner facing front + 2 LL corners (FL facing front)',
+        'comment': 'skips headlights',
+        'solution': "(R U R' U') (R U' R' U) (R U' R')",
+    },
 ]
-others = [
+
+all_cases = [
+    *wv_cases,
+    *vls_cases,
+    *cls_cases,
+]
+
+enabled_cases = [
+    wv_cases[0],
+    wv_cases[1],
+    wv_cases[2],
+    wv_cases[3],
+    wv_cases[4],
+    wv_cases[5],
+    wv_cases[6],
+    wv_cases[7],
+    wv_cases[8],
+    wv_cases[9],
+    wv_cases[18],
+    *vls_cases,
+    *cls_cases,
 ]
 
 aufs = [ '', 'U', 'U\'', 'U2' ]
@@ -618,7 +644,7 @@ aufs = [ '', 'U', 'U\'', 'U2' ]
 while True:
     # to get a scramble for case X:
     # get a solution for inverse scramble: (solution for case X) (random pll)
-    print('training %d of %d cases' % (len(enabled_cases), len(cases)))
+    print('training %d of %d cases' % (len(enabled_cases), len(all_cases)))
 
     idx = random.randrange(len(enabled_cases))
     case = enabled_cases[idx]
@@ -635,9 +661,17 @@ while True:
     print(fwd.colored())
     print('? ', end='')
     sys.stdout.flush()
-    action = sys.stdin.readline()
+    action = sys.stdin.readline().strip()
     print('auf1 was %s' % auf1)
     print('case was %s' % json.dumps(case, indent=2))
     print('auf2 was %s' % auf2)
     print('pll was %s' % json.dumps(pll, indent=2))
     print('auf3 was %s' % auf3)
+    print('action was "%s"' % action)
+
+    if action == 'vls':
+        enabled_cases = vls_cases
+    elif action == 'cls':
+        enabled_cases = cls_cases
+    elif action == 'wv':
+        enabled_cases = wv_cases
