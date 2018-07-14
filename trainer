@@ -588,6 +588,11 @@ cases = [
         'comment': 'test',
         'solution': "M' (U R U' r')",
     },
+    {
+        'name': 'VLS - UF misoriented + 1 corners (FL pointing front, BR pointing back)',
+        'comment': 'test',
+        'solution': "R' F R F'",
+    },
 ]
 
 enabled_cases = [
@@ -603,6 +608,7 @@ enabled_cases = [
     cases[9],
     cases[18],
     cases[27],
+    cases[28],
 ]
 others = [
 ]
