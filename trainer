@@ -445,19 +445,19 @@ all_plls = [
     # adjacent corner swap + edge swap
     {
         'name': 'Ra',
-        'solution': "(R U R' F') (R U2 R' U2') (R' F R U) (R U2' R') [U']",
+        'solution': "(R U R' F') (R U2 R' U2') (R' F R U) (R U2' R')",
     },
     {
         'name': 'Rb',
-        'solution': "(R' U2 R U2) R' F (R U R' U') R' F' R2 [U']",
+        'solution': "(R' U2 R U2) R' F (R U R' U') R' F' R2",
     },
     {
         'name': 'Ja',
-        'solution': "(R' U L' U2) (R U' R' U2 R) L [U']",
+        'solution': "(R' U L' U2) (R U' R' U2 R) L",
     },
     {
         'name': 'Jb',
-        'solution': "(R U R' F') (R U R' U') R' F R2 U' R' [U']",
+        'solution': "(R U R' F') (R U R' U') R' F R2 U' R'",
     },
     {
         'name': 'T',
@@ -487,7 +487,7 @@ all_plls = [
     # double cycles
     {
         'name': 'Ga',
-        'solution': "R2 U (R' U R' U') (R U' R2) D U' (R' U R D') [U]",
+        'solution': "R2 U (R' U R' U') (R U' R2) D U' (R' U R D')",
     },
     {
         'name': 'Gb',
@@ -495,11 +495,11 @@ all_plls = [
     },
     {
         'name': 'Gc',
-        'solution': "R2' U' (R U' R U) (R' U R2 D') (U R U' R') D [U']",
+        'solution': "R2' U' (R U' R U) (R' U R2 D') (U R U' R') D",
     },
     {
         'name': 'Gd',
-        'solution': "D' (R U R' U') D (R2 U' R U') (R' U R' U) R2 [U]",
+        'solution': "D' (R U R' U') D (R2 U' R U') (R' U R' U) R2",
     },
 ]
 
