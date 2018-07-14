@@ -35,20 +35,20 @@ from termcolor import colored
 
 class CubeState:
     def __init__(self):
-        self._U = ['U']*9
-        self._R = ['R']*9
-        self._F = ['F']*9
-        self._D = ['D']*9
-        self._L = ['L']*9
-        self._B = ['B']*9
+        self._U = ['U0', 'U1', 'U2', 'U3', 'U4', 'U5', 'U6', 'U7', 'U8']
+        self._R = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8']
+        self._F = ['F0', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8']
+        self._D = ['D0', 'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8']
+        self._L = ['L0', 'L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8']
+        self._B = ['B0', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8']
 
     def state(self):
-        return (''.join(self._U)
-                + ''.join(self._R)
-                + ''.join(self._F)
-                + ''.join(self._D)
-                + ''.join(self._L)
-                + ''.join(self._B))
+        return (''.join(map(lambda x: x[0], self._U))
+                + ''.join(map(lambda x: x[0], self._R))
+                + ''.join(map(lambda x: x[0], self._F))
+                + ''.join(map(lambda x: x[0], self._D))
+                + ''.join(map(lambda x: x[0], self._L))
+                + ''.join(map(lambda x: x[0], self._B)))
 
     def colored(self):
         U = self._U
@@ -57,35 +57,36 @@ class CubeState:
         D = self._D
         L = self._L
         B = self._B
-        text = ('   '+U[0]+U[1]+U[2]+'      ' + '\n' +
-                '   '+U[3]+U[4]+U[5]+'      ' + '\n' +
-                '   '+U[6]+U[7]+U[8]+'      ' + '\n' +
-                L[0]+L[1]+L[2]+F[0]+F[1]+F[2]+R[0]+R[1]+R[2]+B[0]+B[1]+B[2] + '\n' +
-                L[3]+L[4]+L[5]+F[3]+F[4]+F[5]+R[3]+R[4]+R[5]+B[3]+B[4]+B[5] + '\n' +
-                L[6]+L[7]+L[8]+F[6]+F[7]+F[8]+R[6]+R[7]+R[8]+B[6]+B[7]+B[8] + '\n' +
-                '   '+D[0]+D[1]+D[2]+'      ' + '\n' +
-                '   '+D[3]+D[4]+D[5]+'      ' + '\n' +
-                '   '+D[6]+D[7]+D[8]+'      ' + '\n')
+        text = [' ' ,' ' ,' ' ,U[0],U[1],U[2],' ' ,' ' ,' ' ,' ' ,' ' ,' ' , '\n',
+                ' ' ,' ' ,' ' ,U[3],U[4],U[5],' ' ,' ' ,' ' ,' ' ,' ' ,' ' , '\n',
+                ' ' ,' ' ,' ' ,U[6],U[7],U[8],' ' ,' ' ,' ' ,' ' ,' ' ,' ' , '\n',
+                L[0],L[1],L[2],F[0],F[1],F[2],R[0],R[1],R[2],B[0],B[1],B[2], '\n',
+                L[3],L[4],L[5],F[3],F[4],F[5],R[3],R[4],R[5],B[3],B[4],B[5], '\n',
+                L[6],L[7],L[8],F[6],F[7],F[8],R[6],R[7],R[8],B[6],B[7],B[8], '\n',
+                ' ' ,' ' ,' ' ,D[0],D[1],D[2],' ' ,' ' ,' ' ,' ' ,' ' ,' ' , '\n',
+                ' ' ,' ' ,' ' ,D[3],D[4],D[5],' ' ,' ' ,' ' ,' ' ,' ' ,' ' , '\n',
+                ' ' ,' ' ,' ' ,D[6],D[7],D[8],' ' ,' ' ,' ' ,' ' ,' ' ,' ' , '\n']
         result = ''
+        debug = False
         for c in text:
             if c == '\n':
                 result += c
             elif c == ' ':
                 result += c*2
-            elif c == 'U':
-                result += colored(c*2, 'yellow', 'on_yellow')
-            elif c == 'F':
-                result += colored(c*2, 'green', 'on_green')
-            elif c == 'L':
-                result += colored(c*2, 'red', 'on_red')
-            elif c == 'R':
-                result += colored(c*2, 'magenta', 'on_magenta')
-            elif c == 'B':
-                result += colored(c*2, 'blue', 'on_blue')
-            elif c == 'D':
-                result += colored(c*2, 'grey', 'on_grey')
+            elif c.startswith('U'):
+                result += colored('%2s' % c, 'white' if debug else 'yellow', 'on_yellow')
+            elif c.startswith('F'):
+                result += colored('%2s' % c, 'white' if debug else 'green', 'on_green')
+            elif c.startswith('L'):
+                result += colored('%2s' % c, 'white' if debug else 'red', 'on_red')
+            elif c.startswith('R'):
+                result += colored('%2s' % c, 'white' if debug else 'magenta', 'on_magenta')
+            elif c.startswith('B'):
+                result += colored('%2s' % c, 'white' if debug else 'blue', 'on_blue')
+            elif c.startswith('D'):
+                result += colored('%2s' % c, 'white' if debug else 'grey', 'on_grey')
             else:
-                result += colored(c*2, 'red', 'on_red')
+                result += colored('%2s' % c, 'white' if debug else 'red', 'on_red')
         return result
 
     @staticmethod
@@ -99,6 +100,39 @@ class CubeState:
     @staticmethod
     def _rotate3(x):
         return CubeState._rotate1(CubeState._rotate1(CubeState._rotate1(x)))
+
+    def X(self):
+        self._R = CubeState._rotate1(self._R)
+        self._L = CubeState._rotate3(self._L)
+        Utemp = self._U
+        self._U = self._F
+        self._F = self._D
+        self._D = CubeState._rotate2(self._B)
+        self._B = CubeState._rotate2(Utemp)
+
+        return self
+
+    def Y(self):
+        self._U = CubeState._rotate1(self._U)
+        self._D = CubeState._rotate3(self._D)
+        Ftemp = self._F
+        self._F = self._R
+        self._R = self._B
+        self._B = self._L
+        self._L = Ftemp
+
+        return self
+
+    def Z(self):
+        self._F = CubeState._rotate1(self._F)
+        self._B = CubeState._rotate3(self._B)
+        Utemp = self._U
+        self._U = CubeState._rotate1(self._L)
+        self._L = CubeState._rotate1(self._D)
+        self._D = CubeState._rotate1(self._R)
+        self._R = CubeState._rotate1(Utemp)
+
+        return self
 
     def U(self):
         self._U = CubeState._rotate1(self._U)
@@ -120,6 +154,8 @@ class CubeState:
         self._B[1] = Ltemp[1]
         self._B[2] = Ltemp[2]
 
+        return self
+
     def D(self):
         self._D = CubeState._rotate1(self._D)
 
@@ -139,6 +175,8 @@ class CubeState:
         self._F[6] = Ltemp[0]
         self._F[7] = Ltemp[1]
         self._F[8] = Ltemp[2]
+
+        return self
 
     def R(self):
         self._R = CubeState._rotate1(self._R)
@@ -160,6 +198,8 @@ class CubeState:
         self._U[5] = Ftemp[1]
         self._U[8] = Ftemp[2]
 
+        return self
+
     def L(self):
         self._L = CubeState._rotate1(self._L)
 
@@ -179,6 +219,8 @@ class CubeState:
         self._D[0] = Ftemp[0]
         self._D[3] = Ftemp[1]
         self._D[6] = Ftemp[2]
+
+        return self
 
     def F(self):
         self._F = CubeState._rotate1(self._F)
@@ -200,6 +242,8 @@ class CubeState:
         self._U[7] = Ltemp[1]
         self._U[6] = Ltemp[2]
 
+        return self
+
     def B(self):
         self._B = CubeState._rotate1(self._B)
 
@@ -219,6 +263,20 @@ class CubeState:
         self._D[6] = Ltemp[0]
         self._D[7] = Ltemp[1]
         self._D[8] = Ltemp[2]
+
+        return self
+
+    def M(self):
+        return self.X().X().X().R().L().L().L()
+
+    def Mi(self):
+        return self.X().R().R().R().L()
+
+    def r(self):
+        return self.X().L()
+
+    def ri(self):
+        return self.X().X().X().L().L().L()
 
     def scramble(self, moves):
         for m in re.split(r'[\s()\[\]]+', moves):
@@ -281,6 +339,16 @@ class CubeState:
                 self.B()
                 self.B()
                 self.B()
+
+            elif m == 'M':
+                self.M()
+            elif m == 'M\'':
+                self.Mi()
+
+            elif m == 'r':
+                self.r()
+            elif m == 'r\'':
+                self.ri()
 
             elif m == '':
                 pass
@@ -514,6 +582,12 @@ cases = [
         'comment': 'insert to OLL (pi)',
         'solution': "(R U' R') U2 [R U2' R2' U' R2 U' R2' U2' R]",
     },
+
+    {
+        'name': 'VLS - UF misoriented + 2 corners (BR pointing right)',
+        'comment': 'test',
+        'solution': "M' (U R U' r')",
+    },
 ]
 
 enabled_cases = [
@@ -528,6 +602,9 @@ enabled_cases = [
     cases[8],
     cases[9],
     cases[18],
+    cases[27],
+]
+others = [
 ]
 
 aufs = [ '', 'U', 'U\'', 'U2' ]
@@ -535,6 +612,7 @@ aufs = [ '', 'U', 'U\'', 'U2' ]
 while True:
     # to get a scramble for case X:
     # get a solution for inverse scramble: (solution for case X) (random pll)
+    print('training %d of %d cases' % (len(enabled_cases), len(cases)))
 
     idx = random.randrange(len(enabled_cases))
     case = enabled_cases[idx]
