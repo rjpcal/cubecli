@@ -427,16 +427,16 @@ all_plls = [
     },
     {
         'name': 'H',
-        'solution': "(R2 U2 R U2 R2) U2 (R2 U2 R U2 R2)",
+        'solution': "(M2' U' M2') U2' (M2' U' M2')",
     },
     # ECLLs
     {
         'name': 'Aa',
-        'solution': "R' F R' B2 R F' R' B2 R2",
+        'solution': "x (R' U R') D2 (R U' R') D2 R2 x'",
     },
     {
         'name': 'Ab',
-        'solution': "R2' B2 (R F R') B2 (R F' R)",
+        'solution': "x R2' D2 (R U R') D2 (R U' R) x'",
     },
     {
         'name': 'E',
