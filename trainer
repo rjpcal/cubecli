@@ -377,21 +377,21 @@ class CubeState:
 
             elif m == 'y':
                 self.Y()
-            elif m == 'y2':
+            elif m == 'y2' or m == 'y2\'':
                 self.Y().Y()
             elif m == 'y\'':
                 self.Y().Y().Y()
 
             elif m == 'x':
                 self.X()
-            elif m == 'x2':
+            elif m == 'x2' or m == 'x2\'':
                 self.X().X()
             elif m == 'x\'':
                 self.X().X().X()
 
             elif m == 'z':
                 self.Z()
-            elif m == 'z2':
+            elif m == 'z2' or m == 'z2\'':
                 self.Z().Z()
             elif m == 'z\'':
                 self.Z().Z().Z()
@@ -403,7 +403,12 @@ class CubeState:
                 exit(-1)
 
 
-all_plls = [
+pll_skip = {
+    'name': 'PLL skip',
+    'solution': "",
+}
+
+eplls = [
     # EPLLs
     {
         'name': 'Ub (bar back)',
@@ -429,6 +434,10 @@ all_plls = [
         'name': 'H',
         'solution': "(M2' U' M2') U2' (M2' U' M2')",
     },
+]
+
+all_plls = [
+    *eplls,
     # ECLLs
     {
         'name': 'Aa',
@@ -941,6 +950,60 @@ cls_cases = [
     },
 ]
 
+coll_u_cases = [
+    {
+        'name': 'COLL-U - base pair match; up pair opposite',
+        'solution': "R' U' R U' R' U2 R2 U R' U R U2 R'",
+    },
+    {
+        'name': 'COLL-U - base pair match; up pair match',
+        'solution': "R' F (R U' R' U') (R U R' F') (R U R' U') (R' F R F' R)",
+    },
+    {
+        'name': 'COLL-U - main diag (FR/BL) match; anti-daig (FL/BR) opposite',
+        'solution': "R2' D' (R U2 R') D (R U2 R)",
+    },
+    {
+        'name': 'COLL-U - main diag (FR/BL) opposite; anti-diag (FL/BR) match',
+        'solution': "[y2] R2 D (R' U2 R) D' (R' U2 R') [y2]",
+    },
+    {
+        'name': 'COLL-U - both diagonals match',
+        'solution': "F (R U' R' U) (R U R' U) (R U' R' F')",
+    },
+    {
+        'name': 'COLL-U - base pair opposite; up pair match',
+        'solution': "(R' U2 R) F (U' R' U' R) U F'",
+    },
+]
+
+coll_t_cases = [
+    {
+        'name': 'COLL-T - base pair match; up pair match',
+        'solution': "R U2' R' U' R U' R2' U2' R U R' U R",
+    },
+    {
+        'name': 'COLL-T - base pair opposite; up pair match',
+        'solution': "[y2] F (R U R' U') (R U' R' U') (R U R' F') [y2']"
+    },
+    {
+        'name': 'COLL-T - base pair match; up pair opposite',
+        'solution': "(R' U R) U2' L' (R' U R U') L",
+    },
+    {
+        'name': 'COLL-T - left and right vertical pairs match',
+        'solution': "(R' U R2 D) (r' U2 r) (D' R2' U' R)",
+    },
+    {
+        'name': 'COLL-T - right pair match; left pair opposite (rotate to bring pair to front)',
+        'solution': "[y] (l' U' L U) (R U' r' F) [y']",
+    },
+    {
+        'name': 'COLL-T - left pair match; right pair opposite (rotate to bring pair to front)',
+        'solution': "[y'] (r U R' U') (r' F R F') [y]",
+    },
+]
+
 all_cases = [
     *wv_cases,
     *vls_cases,
@@ -963,9 +1026,20 @@ enabled_cases = [
     *cls_cases,
 ]
 
+enabled_cases = [
+    *coll_t_cases,
+    *coll_u_cases,
+]
+
 plls = all_plls
+plls = [
+    pll_skip,
+    *eplls,
+]
 
 aufs = [ '', 'U', 'U\'', 'U2' ]
+
+show_cube = False
 
 while True:
     # to get a scramble for case X:
@@ -981,13 +1055,14 @@ while True:
     auf2 = aufs[random.randrange(len(aufs))]
     auf3 = aufs[random.randrange(len(aufs))]
     steps = auf1 + ' ' + case['solution'] + ' ' + auf2 + ' ' + pll['solution'] + ' ' + auf3
-    print('\nsteps: %s' % steps)
+    # print('\nsteps: %s' % steps)
     inv.scramble(steps)
     scramble = kociemba.solve(inv.state())
     print('\nscramble: %s' % scramble)
     fwd = CubeState()
     fwd.scramble(scramble)
-    print(fwd.colored())
+    if show_cube:
+        print(fwd.colored())
     print('? ', end='')
     sys.stdout.flush()
     action = sys.stdin.readline().strip()
