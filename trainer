@@ -1004,6 +1004,25 @@ coll_t_cases = [
     },
 ]
 
+coll_h_cases = [
+    {
+        'name': 'COLL-H - front and back pairs match',
+        'solution': "(R U R' U) (R U' R' U) R U2' R'",
+    },
+    {
+        'name': 'COLL-H - left and right pairs match',
+        'solution': "[y] F (R U R' U') (R U R' U') (R U R' U') F' [y']",
+    },
+    {
+        'name': 'COLL-H - front pair match; back pair opposite',
+        'solution': "F (R U' R' U) (R U2 R' U') (R U R' U') F'",
+    },
+    {
+        'name': 'COLL-H - right pair match; left pair opposite',
+        'solution': "(R U R' U) (R U L' U) R' U' L",
+    },
+]
+
 all_cases = [
     *wv_cases,
     *vls_cases,
@@ -1027,6 +1046,7 @@ enabled_cases = [
 ]
 
 enabled_cases = [
+    *coll_h_cases,
     *coll_t_cases,
     *coll_u_cases,
 ]
