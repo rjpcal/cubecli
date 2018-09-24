@@ -950,6 +950,34 @@ cls_cases = [
     },
 ]
 
+coll_l_cases = [
+    {
+        'name': 'COLL-L - up stickers adjacent; FL opposite BL (three colors)',
+        'solution': "[y] (R U R') (U R U' R') (U R U' R') U R U2' R' [y']",
+        #'solution': "(R' U2) (R U R' U') (R U R' U') (R U R' U R)",
+    },
+    {
+        'name': 'COLL-L - up stickers adjacent; FL match BL',
+        'solution': "[y'] r U2' (R2' F R F') R U2' r' [y]",
+    },
+    {
+        'name': 'COLL-L - up stickers match; FL opposite BL',
+        'solution': "[y'] (R U2 R D) (R' U2 R D') R2' [y]",
+    },
+    {
+        'name': 'COLL-L - up stickers match; FL adjacent BL',
+        'solution': "[y2] (R' U2 R' D') (R U2 R' D) R2 [y2]",
+    },
+    {
+        'name': 'COLL-L - up stickers opposite; FL adjacent BL',
+        'solution': "[y'] (F R' F' r) (U R U' r') [y]",
+    },
+    {
+        'name': 'COLL-L - up stickers opposite; FL match BL',
+        'solution': "F' (r U R' U') (r' F R)",
+    },
+]
+
 coll_u_cases = [
     {
         'name': 'COLL-U - base pair match; up pair opposite',
@@ -1027,6 +1055,10 @@ all_cases = [
     *wv_cases,
     *vls_cases,
     *cls_cases,
+    *coll_l_cases,
+    *coll_h_cases,
+    *coll_t_cases,
+    *coll_u_cases,
 ]
 
 enabled_cases = [
@@ -1049,6 +1081,7 @@ enabled_cases = [
     *coll_h_cases,
     *coll_t_cases,
     *coll_u_cases,
+    *coll_l_cases,
 ]
 
 plls = all_plls
