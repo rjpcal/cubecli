@@ -988,7 +988,7 @@ coll_u_cases = [
         'solution': "R' F (R U' R' U') (R U R' F') (R U R' U') (R' F R F' R)",
     },
     {
-        'name': 'COLL-U - main diag (FR/BL) match; anti-daig (FL/BR) opposite',
+        'name': 'COLL-U - main diag (FR/BL) match; anti-diag (FL/BR) opposite',
         'solution': "R2' D' (R U2 R') D (R U2 R)",
     },
     {
@@ -1051,6 +1051,33 @@ coll_h_cases = [
     },
 ]
 
+coll_pi_cases = [
+    {
+        'name': 'COLL-Pi - right side match, left side opposites',
+        'solution': "R U2' R2' U' R2 U' R2' U2' R",
+    },
+    {
+        'name': 'COLL-Pi - left side match, right side opposites',
+        'solution': "R U2' (R2' F R F') (R' F R F') (R' F R F') R U2' R'",
+    },
+    {
+        'name': 'COLL-Pi - main diag (FR/BL) match, anti-diag opposities',
+        'solution': "[y] F (U R U' R') (U R U' R2) F' R (U R U' R') [y']",
+    },
+    {
+        'name': 'COLL-Pi - anti-diag (FL/BR) match, main diag opposities',
+        'solution': "(R U R' U') R' F (R2 U R' U') (R U R' U') F'",
+    },
+    {
+        'name': 'COLL-Pi - left side match, right side match',
+        'solution': "[y2] (L' U R U') (L U' R' U') R U' R' [y2]",
+    },
+    {
+        'name': 'COLL-Pi - both diagonals match',
+        'solution': "[y] F (U R U' R') (U R U2' R') (U' R U R') F' [y']",
+    },
+]
+
 all_cases = [
     *wv_cases,
     *vls_cases,
@@ -1059,6 +1086,7 @@ all_cases = [
     *coll_h_cases,
     *coll_t_cases,
     *coll_u_cases,
+    *coll_pi_cases,
 ]
 
 enabled_cases = [
@@ -1078,6 +1106,7 @@ enabled_cases = [
 ]
 
 enabled_cases = [
+    *coll_pi_cases,
     *coll_h_cases,
     *coll_t_cases,
     *coll_u_cases,
