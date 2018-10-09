@@ -1131,6 +1131,10 @@ while True:
 
     idx = random.randrange(len(enabled_cases))
     case = enabled_cases[idx]
+    if 'count' not in case:
+        case['count'] = 1
+    else:
+        case['count'] += 1
     inv = CubeState()
     pll = plls[random.randrange(len(plls))]
     auf1 = aufs[random.randrange(len(aufs))]
@@ -1163,9 +1167,14 @@ while True:
         enabled_cases = wv_cases
     elif action == 'oll':
         enabled_cases = oll_cases
+    elif action == 'coll':
+        enabled_cases = coll_cases
     elif action.startswith('pll='):
         n = action[4:]
         plls = list(filter(lambda x: x['name'].startswith(n), all_plls))
     elif action.startswith('pll+'):
         n = action[4:]
         plls += list(filter(lambda x: x['name'].startswith(n), all_plls))
+    elif action.startswith('r'):
+        for case in enabled_cases:
+            print('%3d %s' % (case['count'] if 'count' in case else 0, case['name']))
