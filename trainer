@@ -3,6 +3,7 @@
 import json
 import random
 import sys
+import random
 import re
 
 import kociemba # https://github.com/muodov/kociemba
@@ -1123,14 +1124,20 @@ aufs = [ '', 'U', 'U\'', 'U2' ]
 
 show_cube = False
 
+lineup = []
+
 while True:
+    if len(lineup) == 0:
+        print('refreshing lineup')
+        lineup = [ *enabled_cases ]
+        random.shuffle(lineup)
+
     # to get a scramble for case X:
     # get a solution for inverse scramble: (solution for case X) (random pll)
     print('training %d of %d cases' % (len(enabled_cases), len(all_cases)))
     print('using %d of %d plls' % (len(plls), len(all_plls)))
 
-    idx = random.randrange(len(enabled_cases))
-    case = enabled_cases[idx]
+    case = lineup.pop()
     if 'count' not in case:
         case['count'] = 1
     else:
@@ -1161,14 +1168,19 @@ while True:
 
     if action == 'vls':
         enabled_cases = vls_cases
+        lineup = []
     elif action == 'cls':
         enabled_cases = cls_cases
+        lineup = []
     elif action == 'wv':
         enabled_cases = wv_cases
+        lineup = []
     elif action == 'oll':
         enabled_cases = oll_cases
+        lineup = []
     elif action == 'coll':
         enabled_cases = coll_cases
+        lineup = []
     elif action.startswith('pll='):
         n = action[4:]
         plls = list(filter(lambda x: x['name'].startswith(n), all_plls))
