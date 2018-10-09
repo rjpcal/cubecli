@@ -1125,19 +1125,23 @@ aufs = [ '', 'U', 'U\'', 'U2' ]
 show_cube = False
 
 lineup = []
+case = None
 
 while True:
     if len(lineup) == 0:
         print('refreshing lineup')
         lineup = [ *enabled_cases ]
         random.shuffle(lineup)
+        case = None
+
+    if case is None:
+        case = lineup.pop()
 
     # to get a scramble for case X:
     # get a solution for inverse scramble: (solution for case X) (random pll)
     print('training %d of %d cases' % (len(enabled_cases), len(all_cases)))
     print('using %d of %d plls' % (len(plls), len(all_plls)))
 
-    case = lineup.pop()
     if 'count' not in case:
         case['count'] = 1
     else:
@@ -1151,20 +1155,15 @@ while True:
     # print('\nsteps: %s' % steps)
     inv.scramble(steps)
     scramble = kociemba.solve(inv.state())
-    print('\nscramble: %s' % scramble)
+    print('\n%s' % ('='*60))
+    print('scramble: %s' % scramble)
     fwd = CubeState()
     fwd.scramble(scramble)
     if show_cube:
         print(fwd.colored())
-    print('? ', end='')
+    print('>>> ', end='')
     sys.stdout.flush()
     action = sys.stdin.readline().strip()
-    print('auf1 was %s' % auf1)
-    print('case was %s' % json.dumps(case, indent=2))
-    print('auf2 was %s' % auf2)
-    print('pll was %s' % json.dumps(pll, indent=2))
-    print('auf3 was %s' % auf3)
-    print('action was "%s"' % action)
 
     if action == 'vls':
         enabled_cases = vls_cases
@@ -1188,5 +1187,20 @@ while True:
         n = action[4:]
         plls += list(filter(lambda x: x['name'].startswith(n), all_plls))
     elif action.startswith('r'):
-        for case in enabled_cases:
-            print('%3d %s' % (case['count'] if 'count' in case else 0, case['name']))
+        action = 'report'
+        for c in enabled_cases:
+            print('%3d %s' % (c['count'] if 'count' in c else 0, c['name']))
+    elif action == 'again':
+        # nothing to do, just re-run the same case
+        pass
+    else:
+        print('\t%-10s:: %s' % ('auf1', auf1))
+        print('\t%-10s:: %s' % ('case', case['name']))
+        print('\t%-10s:: %s' % ('case alg', case['solution']))
+        print('\t%-10s:: %s' % ('auf2', auf2))
+        print('\t%-10s:: %s' % ('pll', pll['name']))
+        print('\t%-10s:: %s' % ('pll alg', pll['solution']))
+        print('\t%-10s:: %s' % ('auf3', auf3))
+        action = 'next'
+        case = None
+    print('\naction is "%s"' % action)
