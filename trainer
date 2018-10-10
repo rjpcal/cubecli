@@ -1125,7 +1125,13 @@ aufs = [ '', 'U', 'U\'', 'U2' ]
 show_cube = False
 
 lineup = []
+
+# TODO combine these in a class
 case = None
+pll = None
+auf1 = None
+auf2 = None
+auf3 = None
 
 while True:
     if len(lineup) == 0:
@@ -1136,21 +1142,25 @@ while True:
 
     if case is None:
         case = lineup.pop()
+        if 'count' not in case:
+            case['count'] = 1
+        else:
+            case['count'] += 1
+        pll = plls[random.randrange(len(plls))]
+        if 'count' not in pll:
+            pll['count'] = 1
+        else:
+            pll['count'] += 1
+        auf1 = aufs[random.randrange(len(aufs))]
+        auf2 = aufs[random.randrange(len(aufs))]
+        auf3 = aufs[random.randrange(len(aufs))]
 
     # to get a scramble for case X:
     # get a solution for inverse scramble: (solution for case X) (random pll)
     print('training %d of %d cases' % (len(enabled_cases), len(all_cases)))
     print('using %d of %d plls' % (len(plls), len(all_plls)))
 
-    if 'count' not in case:
-        case['count'] = 1
-    else:
-        case['count'] += 1
     inv = CubeState()
-    pll = plls[random.randrange(len(plls))]
-    auf1 = aufs[random.randrange(len(aufs))]
-    auf2 = aufs[random.randrange(len(aufs))]
-    auf3 = aufs[random.randrange(len(aufs))]
     steps = auf1 + ' ' + case['solution'] + ' ' + auf2 + ' ' + pll['solution'] + ' ' + auf3
     # print('\nsteps: %s' % steps)
     inv.scramble(steps)
@@ -1189,8 +1199,12 @@ while True:
         plls += list(filter(lambda x: x['name'].startswith(n), all_plls))
     elif action.startswith('r'):
         action = 'report'
+        print('OLS/OLL:')
         for c in enabled_cases:
-            print('%3d %s' % (c['count'] if 'count' in c else 0, c['name']))
+            print('%6d %s' % (c['count'] if 'count' in c else 0, c['name']))
+        print('PLL:')
+        for p in plls:
+            print('%6d %s' % (p['count'] if 'count' in p else 0, p['name']))
     elif action == 'again':
         # nothing to do, just re-run the same case
         pass
