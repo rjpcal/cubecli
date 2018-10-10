@@ -1157,8 +1157,8 @@ while True:
 
     # to get a scramble for case X:
     # get a solution for inverse scramble: (solution for case X) (random pll)
-    print('training %d of %d cases' % (len(enabled_cases), len(all_cases)))
-    print('using %d of %d plls' % (len(plls), len(all_plls)))
+    print('using %d of %d OLS/OLL cases' % (len(enabled_cases), len(all_cases)))
+    print('using %d of %d PLL cases' % (len(plls), len(all_plls)))
 
     inv = CubeState()
     steps = auf1 + ' ' + case['solution'] + ' ' + auf2 + ' ' + pll['solution'] + ' ' + auf3
