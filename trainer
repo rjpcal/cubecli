@@ -1079,10 +1079,7 @@ coll_pi_cases = [
     },
 ]
 
-all_cases = [
-    *wv_cases,
-    *vls_cases,
-    *cls_cases,
+all_coll_cases = [
     *coll_l_cases,
     *coll_h_cases,
     *coll_t_cases,
@@ -1090,20 +1087,27 @@ all_cases = [
     *coll_pi_cases,
 ]
 
-enabled_cases = [
+all_cases = [
+    *wv_cases,
+    *vls_cases,
+    *cls_cases,
+    *all_coll_cases,
+]
+
+ols_cases = [
     wv_cases[0],
     wv_cases[1],
     wv_cases[2],
     wv_cases[3],
-    wv_cases[4],
-    wv_cases[5],
-    wv_cases[6],
-    wv_cases[7],
-    wv_cases[8],
-    wv_cases[9],
-    wv_cases[18],
+    #wv_cases[4],
+    #wv_cases[5],
+    #wv_cases[6],
+    #wv_cases[7],
+    #wv_cases[8],
+    #wv_cases[9],
+    #wv_cases[18],
     *vls_cases,
-    *cls_cases,
+    #*cls_cases,
 ]
 
 enabled_cases = [
@@ -1166,7 +1170,7 @@ while True:
     inv.scramble(steps)
     scramble = kociemba.solve(inv.state())
     print('\n%s' % ('='*60))
-    print('scramble: %s' % scramble)
+    print('scramble: %s' % colored(scramble, 'blue', attrs=['bold']))
     fwd = CubeState()
     fwd.scramble(scramble)
     if show_cube:
@@ -1188,8 +1192,12 @@ while True:
         enabled_cases = oll_cases
         lineup = []
     elif action == 'coll':
-        enabled_cases = coll_cases
+        enabled_cases = all_coll_cases
         plls = [ pll_skip, *eplls ]
+        lineup = []
+    elif action == 'ols':
+        enabled_cases = ols_cases
+        plls = [ pll_skip, *all_plls ]
         lineup = []
     elif action.startswith('pll='):
         n = action[4:]
@@ -1210,11 +1218,11 @@ while True:
         pass
     else:
         print('\t%-10s:: %s' % ('auf1', auf1))
-        print('\t%-10s:: %s' % ('case', case['name']))
-        print('\t%-10s:: %s' % ('case alg', case['solution']))
+        print('\t%-10s:: %s' % ('case', colored(case['name'], 'green')))
+        print('\t%-10s:: %s' % ('case alg', colored(case['solution'], 'green', attrs=['bold'])))
         print('\t%-10s:: %s' % ('auf2', auf2))
-        print('\t%-10s:: %s' % ('pll', pll['name']))
-        print('\t%-10s:: %s' % ('pll alg', pll['solution']))
+        print('\t%-10s:: %s' % ('pll', colored(pll['name'], 'cyan')))
+        print('\t%-10s:: %s' % ('pll alg', colored(pll['solution'], 'cyan', attrs=['bold'])))
         print('\t%-10s:: %s' % ('auf3', auf3))
         action = 'next'
         case = None
