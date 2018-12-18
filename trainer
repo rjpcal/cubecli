@@ -404,6 +404,37 @@ class CubeState:
                 exit(-1)
 
 
+def lr_mirror(case):
+    mcase = {
+        'name': '(LR-mirrored) %s' % case['name'],
+    }
+
+    if 'comment' in case:
+        mcase['comment'] = case['comment']
+
+    subs = {
+        'l': 'r\'',
+        'L': 'R\'',
+        'r': 'l\'',
+        'R': 'L\'',
+        'F': 'F\'',
+        'B': 'B\'',
+        'U': 'U\'',
+        'D': 'D\'',
+        'y': 'y\'',
+        'z': 'z\'',
+        'x': 'x\'',
+    }
+    msol = ''
+    for c in case['solution']:
+        msol += subs[c] if c in subs else c
+
+    msol = re.sub(r"'2", "2'", msol)
+    msol = re.sub(r"''", "", msol)
+
+    mcase['solution'] = msol
+    return mcase
+
 pll_skip = {
     'name': 'PLL skip',
     'solution': "",
@@ -918,12 +949,14 @@ wv_cases = [
 vls_cases = [
     {
         'name': 'VLS - UF misoriented + 2 corners (BR pointing right)',
-        'comment': 'test',
         'solution': "M' (U R U' r')",
     },
     {
+        'name': 'VLS - UF misoriented + 2 corners (BL pointing back)',
+        'solution': "y' (r' U' R U) M' [y]",
+    },
+    {
         'name': 'VLS - UF misoriented + 1 corners (FL pointing front, BR pointing back)',
-        'comment': 'test',
         'solution': "R' F R F'",
     },
 ]
@@ -1089,25 +1122,36 @@ all_coll_cases = [
 
 all_cases = [
     *wv_cases,
+    *list(map(lr_mirror, wv_cases)),
     *vls_cases,
+    *list(map(lr_mirror, vls_cases)),
     *cls_cases,
+    *list(map(lr_mirror, cls_cases)),
     *all_coll_cases,
 ]
 
-ols_cases = [
+r_ols_cases = [
     wv_cases[0],
     wv_cases[1],
-    wv_cases[2],
+    #wv_cases[2],
     wv_cases[3],
-    #wv_cases[4],
-    #wv_cases[5],
-    #wv_cases[6],
-    #wv_cases[7],
+    wv_cases[4],
+    wv_cases[5],
+    wv_cases[6],
+    wv_cases[7],
     #wv_cases[8],
     #wv_cases[9],
     #wv_cases[18],
-    *vls_cases,
-    #*cls_cases,
+    vls_cases[0],
+    vls_cases[1],
+    vls_cases[2],
+    cls_cases[0],
+    cls_cases[1],
+]
+
+ols_cases = [
+    *r_ols_cases,
+    *list(map(lr_mirror, r_ols_cases)),
 ]
 
 enabled_cases = [
