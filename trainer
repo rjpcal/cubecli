@@ -948,6 +948,10 @@ wv_cases = [
 
 vls_cases = [
     {
+        'name': 'VLS - UF misoriented + 3 corners',
+        'solution': "U (F' U' F) U (R U2 R')",
+    },
+    {
         'name': 'VLS - UF misoriented + 2 corners (BR pointing right)',
         'solution': "M' (U R U' r')",
     },
@@ -1133,18 +1137,19 @@ all_cases = [
 r_ols_cases = [
     wv_cases[0],
     wv_cases[1],
-    #wv_cases[2],
+    wv_cases[2],
     wv_cases[3],
     wv_cases[4],
     wv_cases[5],
     wv_cases[6],
     wv_cases[7],
-    #wv_cases[8],
+    wv_cases[8],
     #wv_cases[9],
-    #wv_cases[18],
+    wv_cases[18],
     vls_cases[0],
     vls_cases[1],
     vls_cases[2],
+    vls_cases[3],
     cls_cases[0],
     cls_cases[1],
 ]
