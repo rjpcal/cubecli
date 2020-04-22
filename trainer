@@ -978,13 +978,68 @@ cls_cases = [
     },
     {
         'name': 'CLS - Corner facing front + 2 LL corners (BL facing back)',
-        'comment': 'test',
         'solution': "y' U (R' U2 R) (U' R' U' R) y",
     },
     {
         'name': 'CLS - "fauxlights" - Corner facing front + 2 LL corners (FL facing front)',
         'comment': 'skips headlights',
         'solution': "(R U R' U') (R U' R' U) (R U' R')",
+    },
+    {
+        'name': 'CLS - Corner facing top + 3 LL corners',
+        'comment': 'skips headlights',
+        'solution': "U' (R U' R' U) (R U2' R') (U' R U R')",
+    },
+    {
+        'name': 'CLS - Corner facing right + 3 LL corners',
+        'solution': "U (R' D' R) (U' R' D R)",
+    },
+]
+
+oll_skip_cases = [
+    # from https://www.youtube.com/watch?v=_T6f_KOgWEQ
+    {
+        'name': 'OLL skip - oriented edge only',
+        'comment': 'finger trick like U perm',
+        'solution': "R' U' R' U' R' U R U R",
+    },
+    {
+        'name': 'OLL skip - misjoined pieces case 1a, oriented edge @ F, corner @ FR facing front, LL solid',
+        'solution': "(R' D' R U' R' D R) U (R U' R')",
+    },
+    {
+        'name': 'OLL skip - misjoined pieces case 1b, oriented edge @ F, corner @ FR facing front, FL pointing front',
+        'solution': "(R U2 R') U (R U R' U R U' R')",
+    },
+    {
+        'name': 'OLL skip - misjoined pieces case 1c, oriented edge @ F, corner @ FR facing front, FL pointing left',
+        'comment': 'start by inserting edge',
+        'solution': "(R U' R') U (R U' R' U R U2 R' U' R U R')" ,
+    },
+    {
+        'name': 'OLL skip - misjoined pieces case 2a, oriented edge @ F, corner @ FR facing up, LL solid',
+        'comment': 'start by inserting edge',
+        'solution': "(R U' R') U (R U2 R' U R U R')",
+    },
+    {
+        'name': 'OLL skip - misjoined pieces case 2b, oriented edge @ F, corner @ FR facing up, FL pointing front',
+        'comment': 'start by inserting edge',
+        'solution': "(R U' R') U (R' D' [R U R'] D R)",
+    },
+    {
+        'name': 'OLL skip - misjoined pieces case 2c, oriented edge @ F, corner @ FR facing up, FL pointing left',
+        'comment': '"normal way" - start by inserting corner',
+        'solution': "(U R U' R') U' (R U' R' U R U' R')",
+    },
+    {
+        'name': 'OLL skip - misjoined pieces case 3, oriented edge @ F, corner @ FR facing right, LL solid',
+        'comment': 'start by inserting edge',
+        'solution': "(R U' R') U' (D' [R' D R] U' [R' D' R] D)",
+    },
+    {
+        'name': 'OLL skip - misjoined pieces case 4, oriented edge @ R, corner @ FR facing up, LL solid',
+        'comment': 'start as usual',
+        'solution': "(R U2' R') U' (R U2 R') U (R U2 R')",
     },
 ]
 
@@ -1248,6 +1303,10 @@ while True:
         enabled_cases = ols_cases
         plls = [ pll_skip, *all_plls ]
         lineup = []
+    elif action == 'skip':
+        enabled_cases = oll_skip_cases
+        plls = [ pll_skip, *all_plls ]
+        lineup = []
     elif action.startswith('pll='):
         n = action[4:]
         plls = list(filter(lambda x: x['name'].startswith(n), all_plls))
@@ -1269,6 +1328,8 @@ while True:
         print('\t%-10s:: %s' % ('auf1', auf1))
         print('\t%-10s:: %s' % ('case', colored(case['name'], 'green')))
         print('\t%-10s:: %s' % ('case alg', colored(case['solution'], 'green', attrs=['bold'])))
+        if 'comment' in case:
+            print('\t%-10s:: %s' % ('comment', colored(case['comment'], 'green')))
         print('\t%-10s:: %s' % ('auf2', auf2))
         print('\t%-10s:: %s' % ('pll', colored(pll['name'], 'cyan')))
         print('\t%-10s:: %s' % ('pll alg', colored(pll['solution'], 'cyan', attrs=['bold'])))
